@@ -1,0 +1,155 @@
+{% comment %}
+Add this to your base template (e.g., base.html) inside the <head> section
+{% endcomment %}
+
+<style>
+  .notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 350px;
+  }
+  
+  .notification {
+    background-color: white;
+    border-radius: 4px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.5s forwards;
+  }
+  
+  .notification.error {
+    border-left: 4px solid #f44336;
+  }
+  
+  .notification.success {
+    border-left: 4px solid #4CAF50;
+  }
+  
+  .notification.warning {
+    border-left: 4px solid #ff9800;
+  }
+  
+  .notification.info {
+    border-left: 4px solid #2196F3;
+  }
+  
+  .notification-content {
+    flex-grow: 1;
+  }
+  
+  .notification-close {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+  }
+  
+  .notification-close:hover {
+    color: #333;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Function to handle notification display and behavior
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create a container for notifications if it doesn't exist
+    let container = document.querySelector('.notification-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'notification-container';
+      document.body.appendChild(container);
+    }
+    
+    // Process each message
+    const messages = document.querySelectorAll('.django-message');
+    messages.forEach(function(message) {
+      const text = message.textContent;
+      const level = message.dataset.level || 'info';
+      
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.className = `notification ${level}`;
+      
+      // Create content
+      const content = document.createElement('div');
+      content.className = 'notification-content';
+      content.textContent = text;
+      
+      // Create close button
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'notification-close';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.addEventListener('click', function() {
+        closeNotification(notification);
+      });
+      
+      // Assemble notification
+      notification.appendChild(content);
+      notification.appendChild(closeBtn);
+      
+      // Add to container
+      container.appendChild(notification);
+      
+      // Auto-close after 10 seconds
+      setTimeout(function() {
+        closeNotification(notification);
+      }, 10000);
+      
+      // Remove the original message
+      message.remove();
+    });
+    
+    // Function to close notification with animation
+    function closeNotification(notification) {
+      notification.style.animation = 'slideOut 0.5s forwards';
+      setTimeout(function() {
+        notification.remove();
+      }, 500);
+    }
+  });
+</script>
+
+{% comment %}
+Update your template where you display Django messages, typically in base.html or a messages include
+Replace your current message display with:
+{% endcomment %}
+
+<div style="display: none;">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="django-message" data-level="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>

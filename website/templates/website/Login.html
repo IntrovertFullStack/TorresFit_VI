@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!--=============== REMIXICONS ===============-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+
+   <!--=============== CSS ===============-->
+   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+   
+   <title>Iniciar Sesión - Torresfit</title>
+</head>
+<body>
+   <!--=============== LOGIN IMAGE ===============-->
+   <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
+      <mask id="mask0" mask-type="alpha">
+         <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+         0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+         591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+         167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+      </mask>
+   
+      <g mask="url(#mask0)">
+         <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+         0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+         591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+         167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+   
+         <!-- Insert your image (recommended size: 1000 x 1200) -->
+         <image class="login__img" href="{% static 'images/LoginPic1.jpg' %}" style="filter: brightness(50%);"/>
+      </g>
+   </svg>      
+
+   <!--=============== LOGIN ===============-->
+   <div class="login container grid" id="loginAccessRegister">
+      <!--===== LOGIN ACCESS =====-->
+      <div class="login__access">
+         <h1 class="login__title">Inicia Sesión</h1>
+         
+         <div class="login__area">
+            <form method="post" action="{% url 'login' %}" class="login__form">
+                {% csrf_token %}
+                <div class="login__content grid">
+                    {% if messages %}
+                        <div class="login__messages">
+                            {% for message in messages %}
+                                <p class="login__message">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="login__box">
+                        <input type="text" name="username" required placeholder=" " class="login__input">
+                        <label for="username" class="login__label">Nombre de usuario</label>
+                        <i class="ri-user-fill login__icon"></i>
+                    </div>
+        
+                    <div class="login__box">
+                        <input type="password" name="password" required placeholder=" " class="login__input" id="password">
+                        <label for="password" class="login__label">Contraseña</label>
+                        <i class="ri-eye-off-fill login__icon login__password" id="loginPassword"></i>
+                    </div>
+                </div>
+        
+                <a href="{% url 'restablecer' %}" class="login__forgot">¿Olvidaste tu contraseña?</a>
+        
+                <button type="submit" class="login__button">Iniciar Sesión</button>
+            </form>
+
+            <div class="login__social">
+               <p class="login__social-title">O inicia sesión con:</p>
+   
+               <div class="login__social-links">
+                  <a href="#" class="login__social-link">
+                     <img src="{% static 'images/icon-google.svg' %}" alt="image" class="login__social-img">
+                  </a>
+   
+                  <a href="#" class="login__social-link">
+                     <img src="{% static 'images/icon-facebook.svg' %}" alt="image" class="login__social-img">
+                  </a>
+   
+                  <a href="#" class="login__social-link">
+                     <img src="{% static 'images/icon-apple.svg' %}" alt="image" class="login__social-img">
+                  </a>
+               </div>
+            </div>
+   
+            <p class="login__switch">
+               ¿No tienes una cuenta? 
+               <button id="loginButtonRegister">Crea tu cuenta</button>
+            </p>
+         </div>
+      </div>
+
+      <!--===== LOGIN REGISTER =====-->
+      <div class="login__register">
+        <h1 class="login__title">Crear nueva cuenta.</h1>
+        <div class="login__area">
+            <form method="post" action="{% url 'registro' %}" class="login__form">
+                {% csrf_token %}
+                
+                <div class="login__content grid">
+                    {% if messages %}
+                    <div class="login__messages">
+                        {% for message in messages %}
+                            <p class="login__message">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="login__group grid">
+                        <div class="login__box">
+                            <input type="text" name="first_name" required placeholder=" " class="login__input" value="{{ first_name }}">
+                            <label for="first_name" class="login__label">Nombres</label>
+                            <i class="ri-id-card-fill login__icon"></i>
+                        </div>
+    
+                        <div class="login__box">
+                            <input type="text" name="last_name" required placeholder=" " class="login__input" value="{{ last_name }}">
+                            <label for="last_name" class="login__label">Apellidos</label>
+                            <i class="ri-id-card-fill login__icon"></i>
+                        </div>
+                    </div>
+    
+                    <div class="login__box">
+                        <input type="email" name="email" required placeholder=" " class="login__input" value="{{ email }}">
+                        <label for="email" class="login__label">Email</label>
+                        <i class="ri-mail-fill login__icon"></i>
+                    </div>
+    
+                    <div class="login__box">
+                        <input type="text" name="username" required placeholder=" " class="login__input" value="{{ username }}">
+                        <label for="username" class="login__label">Nombre de usuario</label>
+                        <i class="ri-user-fill login__icon"></i>
+                    </div>
+    
+                    <div class="login__box">
+                        <input type="password" name="password" required placeholder=" " class="login__input" id="password">
+                        <label for="password" class="login__label">Contraseña</label>
+                        <i class="ri-eye-off-fill login__icon login__password" id="loginPasswordCreate"></i>
+                    </div>
+    
+                    <div class="login__box">
+                        <input type="password" name="confirm_password" required placeholder=" " class="login__input" id="password">
+                        <label for="confirm_password" class="login__label">Confirmar Contraseña</label>
+                        <i class="ri-eye-off-fill login__icon login__password" id="loginConfirmPassword"></i>
+                    </div>
+                </div>
+    
+                <button type="submit" class="login__button">Crear nueva cuenta</button>
+            </form>
+    
+            <p class="login__switch">
+                ¿Ya tiene su cuenta? 
+                <button id="loginButtonAccess">Iniciar Sesión</button>
+            </p>
+        </div>
+    </div>
+    
+   
+   <!--=============== MAIN JS ===============-->
+   <script src="{% static 'js/dalogin.js' %}"></script>
+   <script>
+        function removeMessages() {
+            const messages = document.querySelectorAll('.login__message');
+            messages.forEach(message => {
+                setTimeout(() => {
+                    message.classList.add('fade-out'); // Add fade-out class
+                    setTimeout(() => {
+                        message.remove(); // Remove the message after the fade-out transition
+                    }, 1000); // Wait for the transition to complete
+                }, 9000); // Start fade-out after 9 seconds (total 10 seconds)
+            });
+        }
+        window.onload = removeMessages;
+    </script>
+</body>
+</html>

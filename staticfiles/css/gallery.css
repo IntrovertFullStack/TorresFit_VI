@@ -1,0 +1,392 @@
+/*
+ * Fox by FreeHTML5.co
+ * Twitter: https://twitter.com/fh5co
+ * Facebook: https://fb.com/fh5co
+ * URL: https://freehtml5.co
+ */
+
+body {
+  font-family: 'Lato', sans-serif;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: #000;
+}
+body .bg-img {
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-bottom: 100px;
+}
+body nav {
+  background: rgba(255, 255, 255, 0.1);
+}
+body nav .navbar-nav a {
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #fff !important;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+}
+body nav .navbar-nav a:hover {
+  color: #ff8013 !important;
+}
+body nav .navbar-nav .btn-danger {
+  background: #ff8013;
+  border-color: #ff8013;
+  border-radius: 0;
+}
+body nav .navbar-nav .btn-danger:hover {
+  background: #df6700;
+  border-color: #df6700;
+}
+
+a, a:hover {
+  color: #ff8013;
+}
+
+.fh5co-banner-text-box {
+  position: relative;
+  max-height: 120px;
+  display: inline-block;
+  margin-top: 250px;
+}
+.fh5co-banner-text-box .quote-box {
+  max-width: 455px;
+  padding: 20px 0;
+}
+.fh5co-banner-text-box .quote-box h2 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  font-size: 40px;
+}
+.fh5co-banner-text-box .quote-box h2 span {
+  color: #ff8013;
+  font-size: 34px;
+}
+.fh5co-banner-text-box .quote-box::before {
+  content: "";
+  position: absolute;
+  height: 38px;
+  width: 38px;
+  left: 0;
+  top: 0;
+  background: url("../images/right-quote.png");
+  background-repeat: no-repeat;
+}
+.fh5co-banner-text-box .quote-box::after {
+  content: "";
+  position: absolute;
+  height: 38px;
+  width: 38px;
+  background: url("../images/left-quote.png");
+  background-repeat: no-repeat;
+  right: 0;
+  bottom: 0;
+}
+.fh5co-banner-text-box a {
+  color: #fff;
+  border-color: #4e2b0d;
+  border-radius: 0;
+  min-width: 150px;
+}
+.fh5co-banner-text-box a:hover {
+  background: transparent;
+  border-color: gray;
+  color: #ff8013;
+}
+
+.fh5co-network, .fh5co-about-us {
+  background: url("../images/about-bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  padding: 50px 0;
+  padding-top: 30px;
+}
+.fh5co-network figure, .fh5co-about-us figure {
+  margin-top: -70px !important;
+}
+.fh5co-network h2, .fh5co-about-us h2 {
+  color: #ff8013;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  margin-bottom: 0;
+}
+.fh5co-network h4, .fh5co-about-us h4, .fh5co-network h5, .fh5co-about-us h5, .fh5co-network p, .fh5co-about-us p {
+  color: #282828;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+}
+.fh5co-network hr, .fh5co-about-us hr {
+  border-color: #ff8013;
+  border-width: 5px;
+  max-width: 100px;
+  margin-left: 0;
+  border-radius: 5px;
+}
+.fh5co-network figure, .fh5co-about-us figure {
+  text-align: center;
+}
+
+.fh5co-about-us {
+  background: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.fh5co-about-us p {
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  font-weight: normal;
+}
+.fh5co-about-us hr {
+  border-color: #fff;
+  margin-left: 50px;
+  margin-top: 5px;
+}
+.fh5co-about-us a {
+  color: #fff !important;
+  border-color: #4e2b0d;
+  border-radius: 0;
+  min-width: 150px;
+}
+.fh5co-about-us a:hover {
+  background: transparent;
+  border-color: gray;
+  color: #ff8013;
+}
+
+.fh5co-content-box {
+  background: #464646;
+  padding-bottom: 100px;
+}
+.fh5co-content-box .pr-0 img {
+  margin-top: -128px;
+}
+.fh5co-content-box img {
+  width: 100%;
+}
+.fh5co-content-box .card-img-overlay {
+  color: #fff;
+  text-align: center;
+  top: 35%;
+}
+.fh5co-content-box .trainers {
+  position: relative;
+  padding: 50px 0;
+  margin: 70px 0;
+  background-position: center;
+  background-color: #000;
+}
+.fh5co-content-box .trainers .bg-50 {
+  background: rgba(65, 65, 65, 0.534);
+}
+.fh5co-content-box .trainers .card {
+  border: none;
+  background: transparent;
+}
+.fh5co-content-box .trainers .card img {
+  max-width: 250px;
+  margin: 0 auto;
+  max-height: 250px;
+}
+.fh5co-content-box .trainers .card .card-body {
+  background: #ccc;
+  border-radius: 15px;
+  padding: 30px 20px;
+  margin-top: 30px;
+  padding-bottom: 50px;
+}
+.fh5co-content-box .trainers .card .card-body::before {
+  content: "";
+  position: absolute;
+  border: 20px solid #ccc;
+  border-color: transparent transparent #ccc transparent;
+  margin-top: -70px;
+  text-align: center;
+  margin-left: -15px;
+}
+.fh5co-content-box .trainers .quote-box2 {
+  color: #fff;
+  max-width: 250px;
+  position: relative;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 50px;
+}
+.fh5co-content-box .trainers .quote-box2::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 0;
+  top: -10px;
+  background: url("../images/right-quote-white.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.fh5co-content-box .trainers .quote-box2::after {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background: url("../images/left-quote-white.png");
+  background-repeat: no-repeat;
+  right: 0;
+  bottom: -10px;
+  background-size: 100% 100%;
+}
+.fh5co-content-box .trainers::before, .fh5co-content-box .trainers::after {
+  content: "";
+  position: absolute;
+  border: 5px solid #ff8013;
+  width: 100%;
+  top: -10px;
+}
+.fh5co-content-box .trainers::before {
+  bottom: -10px;
+  top: auto;
+}
+.fh5co-content-box .gallery .card {
+  border: none;
+  background: transparent;
+}
+.fh5co-content-box .gallery .card img {
+  border-radius: 0;
+  max-height: 580px;
+}
+.fh5co-content-box .gallery .card .card-body {
+  background: #ff8013;
+}
+.fh5co-content-box .gallery .card .card-body h4 {
+  color: #fff;
+}
+.fh5co-content-box .gallery .card .card-body p {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+}
+
+.footer {
+    color: var(--default-color);
+    background-color: rgb(54, 54, 54);
+    font-size: 14px;
+    text-align: center;
+    padding: 30px 0;
+    position: relative;
+}
+
+.footer h3 {
+  font-size: 36px;
+  font-weight: 700;
+  position: relative;
+  padding: 0;
+  margin: 0 0 15px 0;
+  color: white;
+}
+.footer p {
+  font-size: 15;
+  font-style: italic;
+  padding: 0;
+  margin: 0 0 30px 0;
+  color: white;
+}
+.footer .social-links {
+  margin: 0 0 30px 0;
+}
+.footer .social-links a {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(126, 125, 125);
+  color: rgb(102, 101, 101);
+  line-height: 1;
+  margin: 0 4px;
+  border-radius: 20%;
+  text-align: center;
+  width: 36px;
+  height: 36px;
+  transition: 0.3s;
+  color: white;
+}
+.footer .social-links a:hover {
+  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  text-decoration: none;
+}
+.footer .copyright {
+  padding-top: 25px;
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  color: white;
+}
+.footer .credits {
+  font-size: 13px;
+  padding-top: 5px;
+  color: white;
+} 
+
+@media (max-width: 1199px) {
+  .fh5co-content-box .pr-0 img {
+    margin-top: -107px;
+  }
+}
+@media (max-width: 991px) {
+  .fh5co-content-box .pr-0 img {
+    margin-top: -78px;
+  }
+  .fh5co-content-box .card-img-overlay {
+    top: 20%;
+  }
+}
+@media (max-width: 767px) {
+  body nav .navbar-nav {
+    margin-left: 0 !important;
+    max-width: 50px;
+  }
+
+  .fh5co-network figure, .fh5co-about-us figure {
+    margin-top: 0 !important;
+  }
+
+  .fh5co-content-box .pr-0 img {
+    margin: 20px auto;
+  }
+  .fh5co-content-box .col-md-5 {
+    padding: 0 !important;
+  }
+  .fh5co-content-box .col-md-7 {
+    padding: 0 !important;
+  }
+
+  .gallery .card {
+    margin-bottom: 25px;
+  }
+}
+
+.container2{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 50px 8%;
+  border-radius: 50%;
+}
+
+.gallery{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 30px;
+  box-shadow: black;
+  border-radius: 20%;
+}
+
+.gallery img{
+  width: 100%;
+  border-radius: 20%;
+}
+
+
+

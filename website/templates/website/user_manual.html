@@ -1,0 +1,512 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - TorresFit</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style copy.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Animate CSS -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/user_manual.css' %}"></link>
+</head>
+<body>
+    <!-- Mobile Sidebar Toggle Button -->
+    <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Desktop Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-chevron-left" id="toggleIcon"></i>
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar__logo">
+            <img src="{% static 'images/Logo2.png' %}" alt="TorresFit Logo">
+        </div>
+        <ul class="sidebar__menu">
+            <li class="sidebar__item">
+                <a href="{% url 'home' %}" class="sidebar__link">
+                    <i data-feather="home"></i>
+                    <br>
+                    <span> Principal</span>
+                </a>
+            </li>
+            <li class="sidebar__item">
+                <a href="{% url 'productos' %}" class="sidebar__link">
+                    <i data-feather="shopping-cart"></i>
+                    <br>
+                    <span> Tienda</span>
+                </a>        
+            </li>
+            <li class="sidebar__item">
+                <a href="{% url 'ver_carrito' %}" class="sidebar__link">
+                    <i data-feather="shopping-bag"></i>
+                    <br>
+                    <span> Carrito</span>
+                </a>        
+            </li>
+            <li class="sidebar__item">
+                <a href="{% url 'user_manual' %}" class="sidebar__link active">
+                    <i data-feather="book"></i>
+                    <br>
+                    <span> Manual</span>
+                </a>        
+            </li>
+            <li class="sidebar__item">
+                <a href="{% url 'contactenos' %}" class="sidebar__link">
+                    <i data-feather="mail"></i>
+                    <br>
+                    <span> Contacto</span>
+                </a>        
+            </li>
+            {% if user.is_authenticated %}
+            <li class="sidebar__item">
+                <a href="{% url 'edit_profile' %}" class="sidebar__link">
+                    <i data-feather="user"></i>
+                    <br>
+                    <span> Bienvenido, {{ user.username }} </span>
+                </a>        
+            </li>
+            <li class="sidebar__item">
+                <a href="{% url 'logout' %}" class="sidebar__link">
+                    <i data-feather="log-out"></i>
+                    <br>
+                    <span> Cerrar Sesión</span>
+                </a>        
+            </li>
+            {% else %}
+            <li class="sidebar__item">
+                <a href="{% url 'login' %}" class="sidebar__link">
+                    <i data-feather="log-in"></i>
+                    <br>
+                    <span>Iniciar Sesión</span>
+                </a>        
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+        <header class="manual-header text-white text-center">
+        <div class="container" id="Top">
+            <h1 class="display-4 wow bounceInDown">Manual de Usuario</h1>
+            <p class="lead mt-4 wow bounceInUp">Todo lo que necesitas saber para aprovechar al máximo TorresFit</p>
+            <div class="mt-5">
+                <a href="#table-of-contents" class="btn btn-outline-light btn-lg px-4 wow bounceInLeft">
+                    <i class="fas fa-book-open mr-2"></i> Comenzar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <!-- Table of Contents -->
+        <section id="table-of-contents" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-list mr-2"></i> Tabla de Contenidos</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#introduction" class="toc-link">
+                                <i class="fas fa-info-circle"></i> Introducción
+                            </a>
+                            <a href="#registration" class="toc-link">
+                                <i class="fas fa-user-plus"></i> Registro y Autenticación
+                            </a>
+                            <a href="#shop-navigation" class="toc-link">
+                                <i class="fas fa-store"></i> Navegación por la Tienda
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#cart-management" class="toc-link">
+                                <i class="fas fa-shopping-cart"></i> Gestión del Carrito
+                            </a>
+                            <a href="#profile-editing" class="toc-link">
+                                <i class="fas fa-user-edit"></i> Edición del Perfil
+                            </a>
+                            <a href="#password-reset" class="toc-link">
+                                <i class="fas fa-key"></i> Restablecimiento de Contraseña
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction -->
+        <section id="introduction" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-info-circle mr-2"></i> Introducción</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <p class="lead">Bienvenido al Manual de Usuario de TorresFit.</p>
+                            <p>Este manual está diseñado para ayudarte a navegar y utilizar todas las funcionalidades de nuestra plataforma. TorresFit es más que un gimnasio; es tu compañero en el camino hacia un estilo de vida saludable.</p>
+                            <p>En las siguientes secciones, encontrarás instrucciones detalladas sobre cómo:</p>
+                            <ul>
+                                <li>Crear tu cuenta y gestionar tu perfil</li>
+                                <li>Explorar nuestra tienda virtual</li>
+                                <li>Comprar productos de fitness y suplementos</li>
+                                <li>Gestionar tu carrito de compras</li>
+                                <li>Recuperar tu contraseña si la olvidas</li>
+                            </ul>
+                            <p>Sigue esta guía paso a paso para aprovechar al máximo tu experiencia con TorresFit.</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <img src="{% static 'images/Logo2.png' %}" alt="TorresFit Logo" class="img-fluid rounded section-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration and Authentication -->
+        <section id="registration" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-user-plus mr-2"></i> Registro y Autenticación</h2>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Para comenzar a utilizar TorresFit, necesitas registrarte e iniciar sesión.</p>
+                    
+                    <div class="instruction-step">
+                        <span class="step-number">1</span>
+                        <strong>Acceder a la página de login:</strong> Ve a la página de <a href="{% url 'login' %}">Iniciar Sesión</a>.
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <span class="step-number">2</span>
+                        <strong>Crear una cuenta nueva:</strong> Si no tienes una cuenta, haz clic en "Crear cuenta" y serás redirigido al formulario de registro.
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <span class="step-number">3</span>
+                        <strong>Completar el formulario:</strong> Llena todos los campos requeridos (nombre, correo electrónico, contraseña, etc.)
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <span class="step-number">4</span>
+                        <strong>Confirmar registro:</strong> Haz clic en "Registrarse" para crear tu cuenta.
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <span class="step-number">5</span>
+                        <strong>Iniciar sesión:</strong> Una vez registrado, inicia sesión con tu nombre de usuario y contraseña.
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <img src="{% static 'images/Login.png' %}" alt="Captura de pantalla del registro" class="img-fluid rounded shadow">
+                        <p class="text-muted mt-2"><small>El Inicio de sesión del sitio.</small></p>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <img src="{% static 'images/Registro.png' %}" alt="Captura de pantalla del registro" class="img-fluid rounded shadow">
+                        <p class="text-muted mt-2"><small>Registro del sitio.</small></p>
+                    </div>
+                    
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle mr-2"></i> <strong>¡Consejo!</strong> Utilize una contraseña segura que combine letras, números y símbolos, o que tenga por lo menos 8 caracteres.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Navigation -->
+        <section id="shop-navigation" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-store mr-2"></i> Navegación</h2>
+                </div>
+                <div class="card-body">
+                    <p class="lead">En la sección de la tienda, puedes explorar todos los productos disponibles de TorresFit.</p>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="instruction-step">
+                                <span class="step-number">1</span>
+                                <strong>Acceder a la tienda:</strong> Haz clic en "Tienda" en el menú de navegación o ve directamente a <a href="{% url 'productos' %}">Tienda</a>.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">2</span>
+                                <strong>Explorar categorías:</strong> Utiliza los filtros disponibles para encontrar productos por categoría, precio o popularidad.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">3</span>
+                                <strong>Ver detalles del producto:</strong> Haz clic en cualquier producto para ver su descripción detallada, precio y disponibilidad.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">4</span>
+                                <strong>Añadir al carrito:</strong> Si te interesa un producto, puedes añadirlo directamente a tu carrito de compras.
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <img src="{% static 'images/Prototienda.png' %}" alt="Captura de pantalla de la tienda" class="img-fluid rounded shadow section-image">
+                            <p class="text-muted mt-2 text-center"><small>Vista de la tienda con productos en oferta. Sujeto a cambios.</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Management -->
+        <section id="cart-management" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-shopping-cart mr-2"></i> Gestión del Carrito</h2>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Tu carrito de compras te permite gestionar los productos que deseas adquirir.</p>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <img src="{% static 'images/Carrito.png' %}" alt="Captura de pantalla del carrito" class="img-fluid rounded shadow section-image">
+                            <p class="text-muted mt-2 text-center"><small>Página del carrito de compras de TorresFit.</small></p>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="instruction-step">
+                                <span class="step-number">1</span>
+                                <strong>Ver el carrito:</strong> Haz clic en el ícono del carrito en la barra de navegación o ve a <a href="{% url 'ver_carrito' %}">Ver Carrito</a>.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">2</span>
+                                <strong>Modificar cantidades:</strong> Puedes aumentar o disminuir la cantidad de cada producto.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">3</span>
+                                <strong>Eliminar productos:</strong> Si decides no comprar un producto, puedes eliminarlo del carrito.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">4</span>
+                                <strong>Proceder al pago:</strong> Cuando estés listo para finalizar tu compra, haz clic en "Proceder al Pago".
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">5</span>
+                                <strong>Completar la compra:</strong> Sigue las instrucciones para finalizar tu pedido y seleccionar el método de pago.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> <strong>Importante:</strong> Los productos en el carrito no están reservados. Para asegurar su disponibilidad, completa tu compra lo antes posible.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Editing -->
+        <section id="profile-editing" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-user-edit mr-2"></i> Editar Perfil</h2>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Mantén tu información personal actualizada editando tu perfil cuando sea necesario.</p>
+                    
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <div class="instruction-step">
+                                <span class="step-number">1</span>
+                                <strong>Acceder a tu perfil:</strong> Haz clic en tu nombre de usuario en la esquina superior derecha y selecciona "Editar Perfil" del menú desplegable.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">2</span>
+                                <strong>Actualizar información:</strong> Modifica los campos que deseas actualizar (nombre, correo electrónico, dirección, etc.).
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">3</span>
+                                <strong>Cambiar contraseña:</strong> También puedes actualizar tu contraseña desde esta sección si lo deseas.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">4</span>
+                                <strong>Guardar cambios:</strong> No olvides hacer clic en "Guardar Cambios" para confirmar las modificaciones.
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-5">
+                            <img src="{% static 'images/editarperfil.png' %}" alt="Captura de pantalla de edición de perfil" class="img-fluid rounded shadow section-image">
+                            <p class="text-muted mt-2 text-center"><small>Página de edición de perfil de usuario.</small></p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle mr-2"></i> <strong>Nota:</strong> Mantener tu información actualizada nos ayuda a ofrecerte un mejor servicio y asegurar que tus compras lleguen correctamente.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Password Reset -->
+        <section id="password-reset" class="manual-section mb-5 wow bounceInUp">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-key mr-2"></i> Restablecimiento de Contraseña</h2>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Si olvidaste tu contraseña, puedes restablecerla siguiendo estos pasos:</p>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="instruction-step">
+                                <span class="step-number">1</span>
+                                <strong>Ir a la página de inicio de sesión:</strong> Accede a la página de <a href="{% url 'login' %}">Iniciar Sesión</a>.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">2</span>
+                                <strong>Seleccionar "Olvidé mi contraseña":</strong> Haz clic en el enlace "¿Olvidaste tu contraseña?" debajo del formulario de inicio de sesión.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">3</span>
+                                <strong>Ingresar correo electrónico:</strong> Introduce el correo electrónico asociado a tu cuenta.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">4</span>
+                                <strong>Revisar tu correo:</strong> Recibirás un correo electrónico con un enlace para restablecer tu contraseña.
+                            </div>
+                            
+                            <div class="instruction-step">
+                                <span class="step-number">5</span>
+                                <strong>Crear nueva contraseña:</strong> Sigue el enlace y crea una nueva contraseña segura.
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <img src="{% static 'images/recuperarcontra.png' %}" alt="Captura de pantalla de restablecimiento de contraseña" class="img-fluid rounded shadow section-image">
+                            <p class="text-muted mt-2 text-center"><small>Página de restablecimiento de contraseña.</small></p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-danger mt-4">
+                        <i class="fas fa-lock mr-2"></i> <strong>Seguridad:</strong> Por tu seguridad, el enlace de restablecimiento de contraseña expira después de 24 horas. Si no lo utilizas en ese tiempo, deberás solicitar uno nuevo.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Back to top button -->
+        <a href="#Top" class="back-to-top wow bounceInRight" data-wow-delay="1s">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </main>
+
+        <!-- Footer -->
+        <footer id="footer" class="footer" data-builder="footer" data-colorpreset="cp-dark-background">
+            <div class="container">
+                <!-- Animated Wave Effect Background -->
+                <div class="footer-wave-container">
+                    <div class="wave wave1"></div>
+                    <div class="wave wave2"></div>
+                    <div class="wave wave3"></div>
+                    <div class="wave wave4"></div>
+                </div>
+                
+                <div class="footer-content wow fadeIn" data-wow-delay="0.2s">
+                    <h3 class="mb-4 wow bounceIn" data-wow-delay="0.3s">Comunícate con nosotros</h3>
+                    <p class="mb-4 wow fadeInUp" data-wow-delay="0.4s">Visita nuestras redes sociales y mantente conectado con TorresFit.</p>
+                    
+                    <div class="social-links d-flex justify-content-center mb-4">
+                        <a href="https://www.facebook.com/torresfitgym/?locale=es_LA" class="wow bounceIn" data-wow-delay="0.5s">
+                            <div class="social-icon facebook-icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/torresfitgym/" class="wow bounceIn" data-wow-delay="0.6s">
+                            <div class="social-icon instagram-icon">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                        </a>
+                        <a href="https://www.tiktok.com/@abrahamtorres857" class="wow bounceIn" data-wow-delay="0.7s">
+                            <div class="social-icon tiktok-icon">
+                                <i class="fab fa-tiktok"></i>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/573125678954" class="wow bounceIn" data-wow-delay="0.8s">
+                            <div class="social-icon whatsapp-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="footer-info wow fadeInUp" data-wow-delay="0.9s">
+                        <div class="address-container">
+                            <i class="fas fa-map-marker-alt location-pin"></i>
+                            <div>
+                                <span class="footer-address">Cl. 3 #4-15</span>
+                                <strong class="px-1 sitename">Reservas de Oriente</strong>
+                                <span>Garzón, Huila</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info mt-3">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:+573125678954">+57 312 567 8954</a>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:info@torresfit.com">info@torresfit.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="copyright wow fadeInLeft" data-wow-delay="1.1s">
+                                &copy; <span id="current-year"></span> TorresFit. Todos los derechos reservados.
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="footer-links wow fadeInRight" data-wow-delay="1.1s">
+                                <li><a href="#">Términos y Condiciones</a></li>
+                                <li><a href="#">Política de Privacidad</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/parallax.js' %}"></script>
+    <script src="{% static 'js/wow.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/user_manual.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Finalizar Compra - TorresFitWeb</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- Original CSS from pasarela.html -->
+  <link href="{% static 'css/shop.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/pasarela.css' %}">
+  <!-- Bootstrap icons-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="{% static 'images/Logo2.png' %}" type="image/x-icon">
+</head>
+<body>
+    <div style="display: none;">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="django-message" data-level="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+  <div class="container-fluid pl-0 pr-0 bg-img clearfix parallax-window2" data-parallax="scroll" data-image-src="{% static 'images/BG2.jpg' %}" style="background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6));">
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <div class="container"> 
+        <!-- Brand --> 
+        <a class="navbar-brand mr-auto" href="#"><img src="{% static 'images/Logo2.png' %}" alt="TorresFit" /></a> 
+        
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
+        
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}">Principal</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="#about-us">Nosotros</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'productos' %}">Tienda</a> </li>
+            <div class="d-flex">
+              <a href="{% url 'ver_carrito' %}" class="btn btn-outline-dark"><i class="bi-cart-fill me-1"></i>
+                Carrito
+                <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ carrito_items|length }}</span>
+              </a>
+            </div>
+            
+            <!-- User Dropdown Menu -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {% if user.is_authenticated %}
+                  <img src="{% static '/images/user-profile-pic.png' %}" alt="Profile Picture" width="20px" height="20px" class="rounded-circle">
+                  &nbsp;Bienvenido, {{ user.username }}
+                {% else %}
+                  Usuario
+                {% endif %}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if user.is_authenticated %}
+                  <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">
+                    <img src="{% static '/images/logout.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cerrar Sesión
+                  </a>
+                  <a class="dropdown-item" href="{% url 'edit_profile' %}" style="color: black;">
+                    <img src="{% static '/images/user-edit-avatar.png' %}" alt="Edit User" width="30px" height="30px" class="rounded-circle">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar Perfil
+                  </a>
+                {% else %}
+                  <a class="dropdown-item" href="{% url 'login' %}" style="color: black;">
+                    <img src="{% static '/images/user-profile-pic.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iniciar Sesión
+                  </a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'user_manual' %}">
+                  <img src="{% static '/images/handbook.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual de Usuario
+                </a>
+                <a class="dropdown-item" href="{% url 'contactenos' %}">
+                  <img src="{% static '/images/handbook.png' %}" alt="Contactanos" width="30px" height="30px" class="rounded-circle">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contactanos
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="fh5co-banner-text-box">
+      <div class="quote-box pl-5 pr-5 wow bounceInRight">
+        <h1 class="checkout-titulo wow bounceInLeft">Finalizar Compra</h1>
+      </div>
+    </div>
+    <br><br><br><br><br>
+    
+    <div class="checkout-grid">
+      <div class="checkout-form">
+        <h2 class="resumen-titulo wow bounceInLeft">Datos de Contacto</h2>
+        <form method="POST">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="{{ form.nombre.id_for_label }}">Nombre Completo</label>
+            {{ form.nombre }}
+            {% if form.nombre.errors %}
+            <div class="form-error">{{ form.nombre.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Correo Electrónico</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+            <div class="form-error">{{ form.email.errors }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+            {{ form.telefono }}
+            {% if form.telefono.errors %}
+            <div class="form-error">{{ form.telefono.errors }}</div>
+            {% endif %}
+          </div>
+
+          <!-- Método de Pago -->
+          <h2 class="resumen-titulo wow bounceInRight">Método de Pago</h2>
+          <div class="form-group">
+            {% for radio in form.metodo_pago %}
+            <div class="form-check">
+              {{ radio.tag }} {{ radio.choice_label }}
+            </div>
+            {% endfor %}
+            {% if form.metodo_pago.errors %}
+            <div class="form-error">{{ form.metodo_pago.errors }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-lg btn-outline-danger text-uppercase wow bounceInUp">
+            Confirmar Pedido
+          </button>
+        </form>
+      </div>
+
+      <div class="checkout-resumen">
+        <h2 class="resumen-titulo wow bounceInRight">Resumen del Pedido</h2>
+        <table class="resumen-table wow bounceInDown">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in carrito_items %}
+            <tr class="resumen-item">
+              <td>
+                <div class="resumen-producto">
+                  <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="resumen-imagen">
+                  <div>{{ item.producto.nombre }}</div>
+                </div>
+              </td>
+              <td>{{ item.cantidad }}</td>
+              <td>${{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="resumen-total-label">Total:</td>
+              <td class="resumen-total">${{ total }}</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div style="margin-top: 2rem;">
+          <a href="{% url 'ver_carrito' %}" class="btn btn-lg btn-outline-danger text-uppercase wow bounceInDown">
+            Volver al Carrito
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br><br><br><br>
+
+  <!-- Footer -->
+        <!-- Footer -->
+        <footer id="footer" class="footer" data-builder="footer" data-colorpreset="cp-dark-background">
+          <div class="container">
+              <!-- Animated Wave Effect Background -->
+              <div class="footer-wave-container">
+                  <div class="wave wave1"></div>
+                  <div class="wave wave2"></div>
+                  <div class="wave wave3"></div>
+                  <div class="wave wave4"></div>
+              </div>
+              
+              <div class="footer-content wow fadeIn" data-wow-delay="0.2s">
+                  <h3 class="mb-4 wow bounceIn" data-wow-delay="0.3s">Comunícate con nosotros</h3>
+                  <p class="mb-4 wow fadeInUp" data-wow-delay="0.4s">Visita nuestras redes sociales y mantente conectado con TorresFit.</p>
+                  
+                  <div class="social-links d-flex justify-content-center mb-4">
+                      <a href="https://www.facebook.com/torresfitgym/?locale=es_LA" class="wow bounceIn" data-wow-delay="0.5s">
+                          <div class="social-icon facebook-icon">
+                              <i class="fab fa-facebook-f"></i>
+                          </div>
+                      </a>
+                      <a href="https://www.instagram.com/torresfitgym/" class="wow bounceIn" data-wow-delay="0.6s">
+                          <div class="social-icon instagram-icon">
+                              <i class="fab fa-instagram"></i>
+                          </div>
+                      </a>
+                      <a href="https://www.tiktok.com/@abrahamtorres857" class="wow bounceIn" data-wow-delay="0.7s">
+                          <div class="social-icon tiktok-icon">
+                              <i class="fab fa-tiktok"></i>
+                          </div>
+                      </a>
+                      <a href="https://wa.me/573125678954" class="wow bounceIn" data-wow-delay="0.8s">
+                          <div class="social-icon whatsapp-icon">
+                              <i class="fab fa-whatsapp"></i>
+                          </div>
+                      </a>
+                  </div>
+                  
+                  <div class="footer-info wow fadeInUp" data-wow-delay="0.9s">
+                      <div class="address-container">
+                          <i class="fas fa-map-marker-alt location-pin"></i>
+                          <div>
+                              <span class="footer-address">Cl. 3 #4-15</span>
+                              <strong class="px-1 sitename">Reservas de Oriente</strong>
+                              <span>Garzón, Huila</span>
+                          </div>
+                      </div>
+                      
+                      <div class="contact-info mt-3">
+                          <div class="contact-item">
+                              <i class="fas fa-phone"></i>
+                              <a href="tel:+573125678954">+57 312 567 8954</a>
+                          </div>
+                          <div class="contact-item">
+                              <i class="fas fa-envelope"></i>
+                              <a href="mailto:info@torresfit.com">info@torresfit.com</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="footer-bottom mt-4">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <p class="copyright wow fadeInLeft" data-wow-delay="1.1s">
+                              &copy; <span id="current-year"></span> TorresFit. Todos los derechos reservados.
+                          </p>
+                      </div>
+                      <div class="col-md-6">
+                          <ul class="footer-links wow fadeInRight" data-wow-delay="1.1s">
+                              <li><a href="#">Términos y Condiciones</a></li>
+                              <li><a href="#">Política de Privacidad</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </footer>
+
+
+  <!-- Optional JavaScript --> 
+  <!-- jQuery first, then Bootstrap JS, ... -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/parallax.js' %}"></script>
+  <script src="{% static 'js/wow.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <!-- Original scripts from pasarela.html -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/Script_shop.js' %}"></script>
+  <script>
+    $(window).scroll(function() {
+    if ($(this).scrollTop() > 50) {
+      $('body nav').addClass('sticky');
+    } else {
+      $('body nav').removeClass('sticky');
+    }
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>TorresFitWeb</title>
+  <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+  <link rel="stylesheet" href="{% static 'css/lightbox.css' %}">
+  <link rel="shortcut icon" href="{% static 'images/Logo2.png' %}" type="image/x-icon">
+</head>
+<body>
+<div class="container-fluid pl-0 pr-0 bg-img clearfix parallax-window2" data-parallax="scroll" data-image-src="{% static 'images/BG2.jpg' %}" style="background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6));">
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <div class="container"> 
+      <!-- Brand --> 
+      <a class="navbar-brand mr-auto" href="{% url 'home' %}"><img src="{% static 'images/Logo2.png' %}" alt="TorresFit" /></a> 
+      
+      <!-- Toggler/collapsibe Button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
+      
+      <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}">Principal</a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#about-us">Nosotros</a></li>
+          <li class="nav-item"> <a class="nav-link" href="#">Galería</a> </li>
+          <li class="nav-item"> <a class="nav-link" href="{% url 'shop' %}">Tienda</a> </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link btn btn-danger" href="#">
+                <img src="{% static '/images/user-profile-pic.png' %}" alt="Profile Picture" width="30px" height="30px" class="rounded-circle">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bienvenido, {{ user.username }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+            </li>
+          {% endif %}
+          
+        </ul>
+
+
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="fh5co-banner-text-box">
+      <div class="quote-box pl-5 pr-5 wow bounceInRight">
+        <h2> Bienvenidos a <br><span>TorresFit Gym</span> </h2>
+      </div>
+      <a href="#" class="btn text-uppercase btn-outline-danger btn-lg mr-3 mb-3 wow bounceInUp"> Novedades</a> <a href="#" class="btn text-uppercase btn-outline-danger btn-lg mb-3 wow bounceInDown"> Rutinas</a> </div>
+  </div>
+</div>
+<div id="Horarios" class="container-fluid fh5co-network">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h4 class="wow bounceInUp">Horarios</h4>
+        <h2 class="wow bounceInRight">Atención al cliente</h2>
+        <br>
+        <h5 class="wow bounceInLeft">Lunes a Viernes</h5>
+        <p class="wow bounceInDown">09:30 am a 10:00 pm</p>
+        <br>
+        <h5 class="wow bounceInLeft">Sábados y Domingos</h5>
+        <p class="wow bounceInDown">07:00 am a 09:00 pm</p>
+        <br>
+        <h5 class="wow bounceInLeft">Festivos</h5>
+        <p class="wow bounceInDown">07:00 am a 12:30 pm</p>
+      </div>
+      <div class="col-md-6">
+        <figure class="wow bounceInDown"> <img src="{% static 'images/Gym1.jpg' %}" alt="gym" class="img-fluid" /> </figure>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="about-us" class="container-fluid fh5co-about-us pl-0 pr-0 parallax-window" data-parallax="scroll" data-image-src="{% static 'images/BG3.jpg' %}">
+  <div class="container">
+    <div class="col-sm-6 offset-sm-6">
+      <h2 class="wow bounceInLeft" data-wow-delay=".25s">Misión</h2>
+      <br>
+      <p class="wow bounceInRight" data-wow-delay=".25s" style="color: black;">Nuestra misión es llevar salud y bienestar a través del acondicionamiento físico a toda la población del centro y sur del Huila, para lograr una calidad integral de vida en todos nuestros clientes. </p>
+      <a class="btn btn-lg btn-outline-danger d-inline-block text-center mx-auto wow bounceInDown">Ver más</a> </div>
+    </div>
+    <br>
+  <div class="container">
+    <div class="col-sm-6 offset-sm-6" >
+      <h2 class="wow bounceInLeft" data-wow-delay=".25s">Visión</h2>
+      <hr/>
+      <p class="wow bounceInRight" data-wow-delay=".25s" style="color: black;">Para el año 2030 seremos el  Gimnasio mas importante, no solo a nivel Garzón y Tarqui, donde actualmente son reconicidas nuestras sedes, sino del centro del departamento  del Huila, ofreciendo  el mejor servicio a nuestros clientes con importante numero  de entrenadores, alta gama de productos y asesoria personalizada para un bienestar integral.</p>
+      <a class="btn btn-lg btn-outline-danger d-inline-block text-center mx-auto wow bounceInDown">Ver más</a> </div>
+    </div>
+  </div>
+<div class="container-fluid fh5co-content-box">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 pr-0"><img src="{% static 'images/Gyms2.jpg' %}" alt="gym" class="img-fluid wow bounceInLeft" /> </div>
+      <div class="col-md-7 pl-0">
+        <div class="wow bounceInRight" data-wow-delay=".25s">
+          <div class="card-img-overlay">
+            <p>Mantente Sano, Mantente fuerte.</p>
+            <p>Ejercitate a diario, y lograrás tus metas.</p>
+          </div>
+          <img src="{% static 'images/gym-girls.jpg' %}" alt="girls in gym" class="img-fluid" /> </div>
+      </div>
+    </div>
+    <br><br><br><br>
+    <h3 class="wow bounceInLeft" data-wow-delay=".25s" style="text-align:center; color:orange;">Productos</h3>
+    <br><br><br>
+
+    
+    <div class="container-fluid ml-5">
+      <div class="container">
+        <div class="gallery">
+          <a href="{% static 'images/20241014_094732.jpg' %}" data-lightbox="models" data-title="Bebida energética Intenze">
+            <img src="{% static 'images/20241014_094732.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_094746.jpg' %}" data-lightbox="models" data-title="Barra Best Protein Procience">
+            <img src="{% static 'images/20241014_094746.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_094755.jpg' %}" data-lightbox="models" data-title="MuliColágeno TypeZero">
+            <img src="{% static 'images/20241014_094755.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_094740.jpg' %}" data-lightbox="models" data-title="Bebida energética Intenze - Fruit Punch">
+            <img src="{% static 'images/20241014_094740.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_095039.jpg' %}" data-lightbox="models" data-title="Caption1">
+            <img src="{% static 'images/20241014_095039.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_094800.jpg' %}" data-lightbox="models" data-title="Caption1">
+            <img src="{% static 'images/20241014_094800.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_094822.jpg' %}" data-lightbox="models" data-title="Caption1">
+            <img src="{% static 'images/20241014_094822.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_094856.jpg' %}" data-lightbox="models" data-title="Caption1">
+            <img src="{% static 'images/20241014_094856.jpg' %}">
+          </a>
+          <a href="{% static 'images/20241014_095001.jpg' %}" data-lightbox="models" data-title="Caption1">
+            <img src="{% static 'images/20241014_095001.jpg' %}">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer id="footer" class="footer" data-builder="footer" data-colorpreset="cp-dark-background">
+  <div class="container">
+    <h3>Comunicate con nosotros</h3>
+    <p>Visita nuestras redes sociales, y comunícate con nosotros. </p>
+    <div class="social-links d-flex justify-content-center">
+      <a href="https://www.facebook.com/torresfitgym/?locale=es_LA"><i class="bi bi-facebook"><img src="{% static 'images/facebook.png' %}" style="width: 100%; border-radius: 15%;"></i></a>
+      <a href="https://www.instagram.com/torresfitgym/"><i class="bi bi-instagram"><img src="{% static 'images/free-instagram-logo-icon-2433-thumb.png' %}" style="width: 100%; border-radius: 15%;"></i></a>
+      <a href="https://www.tiktok.com/@abrahamtorres857"><i class="bi bi-tiktok"><img src="{% static 'images/tiktok logo.png' %}" style="width: 100%; border-radius: 15%;"></i></a>
+    </div>
+    <div class="container">
+      <div class="copyright">
+        <span>Cl. 3 #4-15</span> <strong class="px-1 sitename">Reservas de Oriente</strong> <span>Garzón, Huila</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+<script src="{% static 'js/lightbox-plus-jquery.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/parallax.js' %}"></script>
+<script src="{% static 'js/wow.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+/* Center the container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1200px; /* Adjust as needed */
+    padding: 20px;
+}
+
+/* Center the checkout grid */
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px; /* Space between columns */
+    width: 100%;
+    max-width: 1000px; /* Adjust as needed */
+    margin: 0 auto;
+}
+
+/* Style the form and summary sections */
+.checkout-form, .checkout-resumen {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the form elements */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-check {
+    margin-bottom: 0.5rem;
+}
+
+/* Style the buttons */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid #007bff;
+    color: #007bff;
+}
+
+.btn-outline:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style the summary table */
+.resumen-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.resumen-table th, .resumen-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.resumen-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.resumen-producto {
+    display: flex;
+    align-items: center;
+}
+
+.resumen-imagen {
+    width: 50px;
+    height: 50px;
+    margin-right: 1rem;
+}
+
+.resumen-total-label {
+    text-align: right;
+    font-weight: bold;
+}
+
+.resumen-total {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .checkout-grid {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+}
+
+/* Updated Header and Navbar Styles - Add to your existing style.css */
+
+/* Consistent Header Text Colors */
+.fh5co-banner-text-box .quote-box h2 {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  
+  .fh5co-banner-text-box .quote-box h2 span {
+    color: #ff8013; /* Maintaining your original orange color */
+    font-weight: 700;
+  }
+  
+  /* New Navbar Styling */
+  body nav {
+    background: linear-gradient(to right, rgba(30, 30, 30, 0.9), rgba(50, 50, 50, 0.85));
+    border-bottom: 3px solid #ff8013;
+    transition: all 0.4s ease;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+  }
+  
+  /* Navbar Brand/Logo */
+  .navbar-brand img {
+    max-height: 55px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+  }
+  
+  /* Navigation Links */
+  body nav .navbar-nav a {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #fff !important;
+    padding: 8px 15px;
+    margin: 0 3px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  body nav .navbar-nav a:hover {
+    color: #fff !important;
+    background-color: rgba(255, 128, 19, 0.7);
+    transform: translateY(-2px);
+  }
+  
+  body nav .navbar-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #ff8013;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+  
+  body nav .navbar-nav a:hover::after {
+    width: 70%;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown-menu {
+    background-color: rgba(40, 40, 40, 0.95);
+    border: 1px solid rgba(255, 128, 19, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
+    margin-top: 10px;
+  }
+  
+  .dropdown-item {
+    color: white !important;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    border-left: 3px solid transparent;
+  }
+  
+  .dropdown-item:hover {
+    background-color: rgba(255, 128, 19, 0.2);
+    border-left: 3px solid #ff8013;
+    transform: translateX(5px);
+  }
+  
+  .dropdown-divider {
+    border-color: rgba(255, 128, 19, 0.3);
+  }
+  
+  /* User profile display */
+  .nav-link.dropdown-toggle img.rounded-circle {
+    border: 2px solid rgba(255, 128, 19, 0.7);
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link.dropdown-toggle:hover img.rounded-circle {
+    transform: scale(1.1);
+    border-color: #ff8013;
+  }
+  
+  /* Mobile Navbar */
+  .navbar-toggler {
+    border: 1px solid rgba(255, 128, 19, 0.7);
+    padding: 5px 10px;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 128, 19, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 767px) {
+    body nav .navbar-nav {
+      background-color: rgba(40, 40, 40, 0.95);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px !important;
+      max-width: 100% !important;
+    }
+    
+    body nav .navbar-nav a {
+      padding: 10px 15px;
+      margin: 3px 0;
+      border-left: 3px solid transparent;
+    }
+    
+    body nav .navbar-nav a:hover {
+      border-left: 3px solid #ff8013;
+      background-color: rgba(255, 128, 19, 0.2);
+    }
+    
+    body nav .navbar-nav a::after {
+      display: none;
+    }
+    
+    .dropdown-menu {
+      background-color: rgba(30, 30, 30, 0.95);
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding-left: 15px;
+    }
+    
+    .navbar-brand img {
+      max-height: 40px;
+    }
+  }
+  
+  /* Sticky Navbar Effect */
+  body nav.sticky {
+    background: rgba(30, 30, 30, 0.95);
+    padding: 5px 0;
+  }
+  
+  body nav.sticky .navbar-brand img {
+    max-height: 40px;
+  }
