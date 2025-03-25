@@ -8,6 +8,7 @@
   
   <!-- Stylesheets -->
   <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+  <link href="{% static 'css/loader.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -15,6 +16,26 @@
   <link rel="shortcut icon" href="{% static 'images/Logo2.png' %}" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+        <!-- Loader HTML -->
+        <div class="loader-container" id="loaderContainer">
+          <div class="loader"></div>
+          <div class="loader-logo">
+              <div class="loader-text">Torres<span>Fit</span></div>
+          </div>
+          <div class="loading-text">
+              Cargando<span class="loading-dots"></span>
+          </div>
+      </div>
+      <script src="{% static 'js/loader.js' %}"></script>
+    <div style="display: none;">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="django-message" data-level="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
   <style>
     /* Custom CSS for edit profile page */
     .profile-card {

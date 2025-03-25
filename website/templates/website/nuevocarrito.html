@@ -18,6 +18,7 @@
     <link href="{% static 'css/animate.css' %}" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/loader.css' %}" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
     <!-- Bootstrap icons-->
@@ -26,6 +27,16 @@
     <link href="{% static 'css/shop.css' %}" rel="stylesheet" />
 </head>
 <body>
+    <div class="loader-container" id="loaderContainer">
+        <div class="loader"></div>
+        <div class="loader-logo">
+            <div class="loader-text">Torres<span>Fit</span></div>
+        </div>
+        <div class="loading-text">
+            Cargando<span class="loading-dots"></span>
+        </div>
+    </div>
+    <script src="{% static 'js/loader.js' %}"></script>
     <div style="display: none;">
         {% if messages %}
           {% for message in messages %}

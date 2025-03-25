@@ -9,8 +9,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 </head>
 <body>
+    <div class="loader-container" id="loaderContainer">
+        <div class="loader"></div>
+        <div class="loader-logo">
+            <div class="loader-text">Torres<span>Fit</span></div>
+        </div>
+        <div class="loading-text">
+            Cargando<span class="loading-dots"></span>
+        </div>
+    </div>
+    <script src="{% static 'js/loader.js' %}"></script>
     <!--=============== LOGIN IMAGE ===============-->
     <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0" mask-type="alpha">

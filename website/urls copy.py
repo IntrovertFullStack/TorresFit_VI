@@ -7,13 +7,13 @@ from website.views import edit_profile  # Import the edit_profile view
 
 
 urlpatterns = [
-    path('', views.welcome, name='welcome'),
-    path('home', views.home, name='home'),
+    path('', views.home, name='home'),
     # path('newhome/', views.newhome, name='newhome'),
     path('gallery/', views.gallery, name='gallery'),
     # path('shop/', views.shop, name='shop'),
     path('shop/<int:producto_id>/', shop_view, name='shop_view'),
     path('producto/<int:pk>', views.producto, name='producto'),
+    path('welcome/', views.welcome, name='welcome'),
     path('login/', views.login_view, name='login'),
     path('registro/', views.register_view, name='registro'),
     path('logout/', views.logout_view, name='logout'),

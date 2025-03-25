@@ -100,7 +100,6 @@ def register_view(request):
                         first_name=first_name, 
                         last_name=last_name
                     )
-                    user.save()
                     messages.success(request, 'Cuenta creada exitosamente')
                     return redirect('login')  # Redirect to login only on successful registration
         else:
@@ -180,7 +179,7 @@ def contrasena(request, uidb64, token):
             user.save()
             return redirect("password_changed")
         return render(request, "website/contrasena.html")
-    return redirect("iniciar_sesion")
+    return redirect("login")
 
 
 def password_changed(request):

@@ -5,11 +5,11 @@ from django.contrib.auth.models import User
 from .models import Profile
 
 @receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(usuario=instance)  # Use 'usuario' instead of 'user'
+        Profile.objects.get_or_create(usuario=instance)  # Safe creation
 
 @receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    if hasattr(instance, 'profile'):  # Ensure the profile exists
-        instance.profile.save()  # Use lowercase 'profile'
+def save_user_profile(sender, instance, **kwargs):
+    if hasattr(instance, 'profile'):
+        instance.profile.save()
