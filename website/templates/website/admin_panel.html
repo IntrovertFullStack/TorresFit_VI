@@ -1,0 +1,795 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - TorresFitWeb</title>
+  
+  <!-- Stylesheets -->
+  <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+  <link href="{% static 'css/loader.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="shortcut icon" href="{% static 'images/Logo2.png' %}" type="image/x-icon">
+
+  <!-- Loader HTML -->
+  <div class="loader-container" id="loaderContainer">
+    <div class="loader"></div>
+    <div class="loader-logo">
+      <div class="loader-text">Torres<span>Fit</span></div>
+    </div>
+    <div class="loading-text">
+      Cargando<span class="loading-dots"></span>
+    </div>
+  </div>
+  <script src="{% static 'js/loader.js' %}"></script>
+  
+  <style>
+    /* Admin Panel Styles */
+    .admin-card {
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .admin-card-header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      padding: 25px;
+      color: white;
+      text-align: center;
+    }
+    
+    .admin-card-body {
+      padding: 30px;
+      background: white;
+    }
+    
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .user-table th {
+      background-color: #f8f9fa;
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 2px solid #dee2e6;
+      transition: all 0.3s ease;
+    }
+    
+    .user-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #dee2e6;
+      vertical-align: middle;
+    }
+    
+    .user-table tr {
+      animation: fadeIn 0.5s ease-out;
+      animation-fill-mode: both;
+      transition: all 0.3s ease;
+    }
+    
+    .user-table tr:hover {
+      background-color: #f8f9fa;
+      transform: translateX(5px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    
+    /* Staggered row animations */
+    .user-table tr:nth-child(1) { animation-delay: 0.1s; }
+    .user-table tr:nth-child(2) { animation-delay: 0.2s; }
+    .user-table tr:nth-child(3) { animation-delay: 0.3s; }
+    .user-table tr:nth-child(4) { animation-delay: 0.4s; }
+    .user-table tr:nth-child(n+5) { animation-delay: 0.5s; }
+    
+    .admin-btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: none;
+      color: white;
+    }
+    
+    .edit-btn {
+      background-color: #17a2b8;
+    }
+    
+    .edit-btn:hover {
+      background-color: #138496;
+      transform: translateY(-2px) rotate(2deg);
+      box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+    }
+    
+    .delete-btn {
+      background-color: #dc3545;
+    }
+    
+    .delete-btn:hover {
+      background-color: #c82333;
+      transform: translateY(-2px) rotate(-2deg);
+      box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+      animation: shake 0.5s;
+    }
+    
+    .add-user-btn {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      padding: 12px 25px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+      border: none;
+      margin-bottom: 20px;
+    }
+    
+    .add-user-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    .admin-form-row {
+      margin-bottom: 20px;
+    }
+    
+    .admin-label {
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 8px;
+    }
+    
+    .form-control {
+      border-radius: 8px;
+      padding: 12px 15px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+      transform: translateY(-1px);
+    }
+    
+    .admin-tabs {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .admin-tabs .nav-link {
+      color: #495057;
+      font-weight: 500;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px 8px 0 0;
+      margin-right: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .admin-tabs .nav-link:hover {
+      transform: translateY(-2px);
+    }
+    
+    .admin-tabs .nav-link.active {
+      color: #6a11cb;
+      background-color: white;
+      border-bottom: 3px solid #6a11cb;
+    }
+    
+    .admin-tabs .nav-link:hover:not(.active) {
+      background-color: #f8f9fa;
+    }
+    
+    .search-box {
+      position: relative;
+      margin-bottom: 20px;
+      animation: fadeInRight 0.5s ease-out;
+    }
+    
+    .search-box input {
+      padding-left: 40px;
+    }
+    
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+    
+    .badge-admin {
+      background-color: #6a11cb;
+      animation: pulse 2s infinite;
+    }
+    
+    .badge-staff {
+      background-color: #2575fc;
+      animation: pulse 2s infinite 0.3s;
+    }
+    
+    .badge-user {
+      background-color: #28a745;
+      animation: pulse 2s infinite 0.6s;
+    }
+
+    /* Avatar animation */
+    .rounded-circle {
+      transition: all 0.3s ease;
+    }
+
+    .rounded-circle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(106, 17, 203, 0.3);
+    }
+
+    /* Keyframe animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-3px); }
+      40%, 80% { transform: translateX(3px); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    /* Tab switch animation */
+    .tab-pane {
+      animation: fadeIn 0.4s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <!-- Messages container -->
+  <div style="display: none;">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="django-message" data-level="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- Header background with navbar -->
+  <div class="container-fluid pl-0 pr-0 bg-img clearfix parallax-window2" data-parallax="scroll" data-image-src="{% static 'images/BG2.jpg' %}">
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <div class="container"> 
+        <!-- Brand --> 
+        <a class="navbar-brand mr-auto" href="#"><img src="{% static 'images/Logo2.png' %}" alt="TorresFit" /></a> 
+        
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
+        
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}">Principal</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'productos' %}">Tienda</a> </li>
+            
+            <!-- User Dropdown Menu -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {% if user.is_authenticated %}
+                  <img src="{% static '/images/user-profile-pic.png' %}" alt="Profile Picture" width="20px" height="20px" class="rounded-circle">
+                  &nbsp;Bienvenido, {{ user.username }}
+                {% else %}
+                  Usuario
+                {% endif %}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if user.is_authenticated %}
+                  <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">
+                    <img src="{% static '/images/logout.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cerrar Sesión
+                  </a>
+                  <a class="dropdown-item" href="{% url 'edit_profile' %}" style="color: black;">
+                    <img src="{% static '/images/user-edit-avatar.png' %}" alt="Edit User" width="30px" height="30px" class="rounded-circle">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar Perfil
+                  </a>
+                  {% if user.is_superuser %}
+                    <a class="dropdown-item" href="{% url 'admin:index' %}" style="color: black;">
+                      <img src="{% static '/images/admin-icon.png' %}" alt="Admin Panel" width="30px" height="30px" class="rounded-circle">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Panel Admin
+                    </a>
+                  {% endif %}
+                {% else %}
+                  <a class="dropdown-item" href="{% url 'login' %}" style="color: black;">
+                    <img src="{% static '/images/user-profile-pic.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iniciar Sesión
+                  </a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'user_manual' %}">
+                  <img src="{% static '/images/handbook.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual de Usuario
+                </a>
+                <a class="dropdown-item" href="{% url 'contactenos' %}">
+                  <img src="{% static '/images/handbook.png' %}" alt="Contactanos" width="30px" height="30px" class="rounded-circle">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contactanos
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Title banner -->
+    <div class="container">
+      <div class="fh5co-banner-text-box">
+        <div class="quote-box pl-5 pr-5 wow bounceInRight">
+          <h2>Panel de <br><span>Administración</span></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel Content -->
+  <div class="container-fluid fh5co-content-box bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <!-- Admin Tabs -->
+          <ul class="nav admin-tabs" id="adminTabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">
+                <i class="fas fa-users mr-2"></i>Gestión de Usuarios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="add-user-tab" data-toggle="tab" href="#add-user" role="tab" aria-controls="add-user" aria-selected="false">
+                <i class="fas fa-user-plus mr-2"></i>Agregar Usuario
+              </a>
+            </li>
+          </ul>
+          
+          <!-- Tab Content -->
+          <div class="tab-content" id="adminTabsContent">
+            <!-- Users Management Tab -->
+            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="userSearch" class="form-control" placeholder="Buscar usuarios...">
+              </div>
+              
+              <button type="button" class="add-user-btn wow bounceIn" data-wow-delay=".1s" onclick="switchToAddUserTab()">
+                <i class="fas fa-user-plus mr-2"></i>Agregar Nuevo Usuario
+              </button>
+              
+              <div class="admin-card wow bounceInUp">
+                <div class="admin-card-header">
+                  <h3 class="mb-0"><i class="fas fa-users mr-2"></i>Lista de Usuarios</h3>
+                </div>
+                <div class="admin-card-body">
+                  <div class="table-responsive">
+                    <table class="user-table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Nombre de Usuario</th>
+                          <th>Nombre Completo</th>
+                          <th>Email</th>
+                          <th>Rol</th>
+                          <th>Fecha de Registro</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for user in users %}
+                        <tr>
+                          <td>{{ user.id }}</td>
+                          <td>
+                            <img src="{{ user.profile.image.url }}"
+                            alt="Profile" 
+                            class="rounded-circle mr-2" 
+                            style="width: 45px; height: 45px; object-fit: cover;">
+                            {{ user.username }}
+                          </td>
+                          <td>{{ user.get_full_name|default:"-" }}</td>
+                          <td>{{ user.email }}</td>
+                          <td>
+                            {% if user.is_superuser %}
+                              <span class="badge badge-admin">Admin</span>
+                            {% elif user.is_staff %}
+                              <span class="badge badge-staff">Staff</span>
+                            {% else %}
+                              <span class="badge badge-user">Usuario</span>
+                            {% endif %}
+                          </td>
+                          <td>{{ user.date_joined|date:"d/m/Y" }}</td>
+                          <td>
+                            <!-- Edit Button -->
+                            <form method="post" action="{% url 'delete_user' user.id %}" style="display: inline;">
+                              {% csrf_token %}
+                              <button type="submit" class="admin-btn delete-btn mr-3" onclick="return confirm('¿Estás seguro que deseas eliminar al usuario \'{{ user.username }}\'? Esta acción no se puede deshacer.')">
+                                <i class="fas fa-trash-alt mr-1"></i>Eliminar
+                              </button>
+                            </form>
+                            <button class="admin-btn edit-btn mr-2" onclick="openEditModal('{{ user.id }}', '{{ user.username }}', '{{ user.email }}', '{{ user.first_name }}', '{{ user.last_name }}')">
+                              <i class="fas fa-edit mr-1"></i>Editar
+                            </button>
+                          </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="7" class="text-center py-4">No hay usuarios registrados</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+                        <!-- Add User Tab -->
+            <div class="tab-pane fade" id="add-user" role="tabpanel" aria-labelledby="add-user-tab">
+              <div class="admin-card wow bounceInUp">
+                <div class="admin-card-header">
+                  <h3 class="mb-0"><i class="fas fa-user-plus mr-2"></i>Agregar Nuevo Usuario</h3>
+                </div>
+                <div class="admin-card-body">
+                  {% if add_user_form.errors %}
+                    <div class="alert alert-danger">
+                      <strong><i class="fas fa-exclamation-triangle mr-2"></i>Error:</strong> Por favor corrige los siguientes errores.
+                      <ul class="mt-2 mb-0">
+                        {% for field, errors in add_user_form.errors.items %}
+                          {% for error in errors %}
+                            <li>{{ field|capfirst }}: {{ error }}</li>
+                          {% endfor %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                  
+                  <form method="post" action="{% url 'add_user' %}" id="addUserForm">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                      <div class="col-md-6">
+                        <!-- Username Field -->
+                        <div class="admin-form-row wow fadeIn" data-wow-delay=".1s">
+                          <label class="admin-label" for="{{ add_user_form.username.id_for_label }}">
+                            Nombre de Usuario <i class="fas fa-user mr-2"></i>{{ add_user_form.username.label }}
+                          </label>
+                          <input type="text" 
+                                class="form-control {% if add_user_form.username.errors %}is-invalid{% endif %}" 
+                                id="{{ add_user_form.username.id_for_label }}"
+                                name="{{ add_user_form.username.name }}"
+                                value="{{ add_user_form.username.value|default_if_none:'' }}"
+                                required>
+                          {% if add_user_form.username.help_text %}
+                            <small class="form-text text-muted">{{ add_user_form.username.help_text }}</small>
+                          {% endif %}
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div class="admin-form-row wow fadeIn" data-wow-delay=".15s">
+                          <label class="admin-label" for="{{ add_user_form.email.id_for_label }}">
+                            Email <i class="fas fa-envelope mr-2"></i>{{ add_user_form.email.label }}
+                          </label>
+                          <input type="email" 
+                                class="form-control {% if add_user_form.email.errors %}is-invalid{% endif %}" 
+                                id="{{ add_user_form.email.id_for_label }}"
+                                name="{{ add_user_form.email.name }}"
+                                value="{{ add_user_form.email.value|default_if_none:'' }}"
+                                required>
+                          {% if add_user_form.email.help_text %}
+                            <small class="form-text text-muted">{{ add_user_form.email.help_text }}</small>
+                          {% endif %}
+                        </div>
+                        
+                        <!-- First Name Field -->
+                        <div class="admin-form-row wow fadeIn" data-wow-delay=".2s">
+                          <label class="admin-label" for="{{ add_user_form.first_name.id_for_label }}">
+                            Nombres <i class="fas fa-user mr-2"></i>{{ add_user_form.first_name.label }}
+                          </label>
+                          <input type="text" 
+                                class="form-control {% if add_user_form.first_name.errors %}is-invalid{% endif %}" 
+                                id="{{ add_user_form.first_name.id_for_label }}"
+                                name="{{ add_user_form.first_name.name }}"
+                                value="{{ add_user_form.first_name.value|default_if_none:'' }}">
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <!-- Last Name Field -->
+                        <div class="admin-form-row wow fadeIn" data-wow-delay=".25s">
+                          <label class="admin-label" for="{{ add_user_form.last_name.id_for_label }}">
+                            Apellidos <i class="fas fa-user-tag mr-2"></i>{{ add_user_form.last_name.label }}
+                          </label>
+                          <input type="text" 
+                                class="form-control {% if add_user_form.last_name.errors %}is-invalid{% endif %}" 
+                                id="{{ add_user_form.last_name.id_for_label }}"
+                                name="{{ add_user_form.last_name.name }}"
+                                value="{{ add_user_form.last_name.value|default_if_none:'' }}">
+                        </div>
+                        
+                        <!-- Password Field -->
+                        <div class="admin-form-row wow fadeIn" data-wow-delay=".3s">
+                          <label class="admin-label" for="{{ add_user_form.password1.id_for_label }}">
+                            Contraseña <i class="fas fa-lock mr-2"></i>{{ add_user_form.password1.label }}
+                          </label>
+                          <input type="password" 
+                                class="form-control {% if add_user_form.password1.errors %}is-invalid{% endif %}" 
+                                id="{{ add_user_form.password1.id_for_label }}"
+                                name="{{ add_user_form.password1.name }}"
+                                required>
+                          {% if add_user_form.password1.help_text %}
+                            <small class="form-text text-muted">{{ add_user_form.password1.help_text }}</small>
+                          {% endif %}
+                        </div>
+                        
+                        <!-- Password Confirmation Field -->
+                        <div class="admin-form-row wow fadeIn" data-wow-delay=".35s">
+                          <label class="admin-label" for="{{ add_user_form.password2.id_for_label }}">
+                            Confirmar Contraseña <i class="fas fa-lock mr-2"></i>{{ add_user_form.password2.label }}
+                          </label>
+                          <input type="password" 
+                                class="form-control {% if add_user_form.password2.errors %}is-invalid{% endif %}" 
+                                id="{{ add_user_form.password2.id_for_label }}"
+                                name="{{ add_user_form.password2.name }}"
+                                required>
+                          {% if add_user_form.password2.help_text %}
+                            <small class="form-text text-muted">{{ add_user_form.password2.help_text }}</small>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Permissions Section -->
+                    <div class="admin-form-row wow fadeIn" data-wow-delay=".4s">
+                      <label class="admin-label"><i class="fas fa-user-shield mr-2"></i>Permisos</label>
+                      
+                      <!-- Staff Checkbox -->
+                      <div class="form-check">
+                        <input type="checkbox" 
+                              class="form-check-input" 
+                              id="{{ add_user_form.is_staff.id_for_label }}"
+                              name="{{ add_user_form.is_staff.name }}"
+                              {% if add_user_form.is_staff.value %}checked{% endif %}>
+                        <label class="form-check-label" for="{{ add_user_form.is_staff.id_for_label }}">
+                          Staff (Acceso al panel de administración)
+                        </label>
+                      </div>
+                      
+                      <!-- Superuser Checkbox -->
+                      <div class="form-check">
+                        <input type="checkbox" 
+                              class="form-check-input" 
+                              id="{{ add_user_form.is_superuser.id_for_label }}"
+                              name="{{ add_user_form.is_superuser.name }}"
+                              {% if add_user_form.is_superuser.value %}checked{% endif %}>
+                        <label class="form-check-label" for="{{ add_user_form.is_superuser.id_for_label }}">
+                          Superusuario (Todos los permisos)
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4 wow bounceIn" data-wow-delay=".45s">
+                      <button type="submit" class="add-user-btn">
+                        <i class="fas fa-save mr-2"></i>Crear Usuario
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer" data-builder="footer" data-colorpreset="cp-dark-background">
+    <div class="container">
+      <!-- Footer content same as before -->
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/parallax.js' %}"></script>
+  <script src="{% static 'js/wow.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script>
+    // Initialize WOW.js animations
+    new WOW({
+      offset: 100,
+      mobile: false
+    }).init();
+    
+    // Show alerts from Django messages
+    $(document).ready(function() {
+      $('.django-message').each(function() {
+        var level = $(this).data('level');
+        var message = $(this).text().trim();
+        
+        // Create Bootstrap alerts
+        if(message) {
+          var alertClass = 'alert-info';
+          if(level === 'success') alertClass = 'alert-success';
+          if(level === 'error') alertClass = 'alert-danger';
+          if(level === 'warning') alertClass = 'alert-warning';
+          
+          $('body').append(
+            '<div class="alert ' + alertClass + ' alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">' +
+            message +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+            '</div>'
+          );
+        }
+      });
+      
+      // Auto dismiss alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').alert('close');
+      }, 5000);
+      
+      // Enhanced user search with animation
+      $('#userSearch').on('keyup', function() {
+        var value = $(this).val().toLowerCase();
+        $('.user-table tbody tr').each(function() {
+          var match = $(this).text().toLowerCase().indexOf(value) > -1;
+          $(this).toggle(match);
+          if (match) {
+            $(this).css('animation', 'fadeIn 0.3s ease-out');
+          }
+        });
+      });
+
+      // Add hover effect to table headers
+      $('.user-table th').hover(
+        function() {
+          $(this).css('transform', 'translateY(-2px)');
+        },
+        function() {
+          $(this).css('transform', 'translateY(0)');
+        }
+      );
+    });
+    
+    // Open edit user modal with user data
+  function openEditModal(userId, username, email, firstName, lastName) {
+    $('#editUserForm').attr('action', '/quick_edit_user/' + userId + '/');
+    $('#username').val(username);
+    $('#email').val(email);
+    $('#first_name').val(firstName || '');
+    $('#last_name').val(lastName || '');
+    $('#editUserModal').modal('show');
+  }
+
+    // Enhanced delete confirmation with animation
+    function confirmDelete(username, deleteUrl) {
+      if(confirm('¿Estás seguro que deseas eliminar al usuario "' + username + '"? Esta acción no se puede deshacer.')) {
+        var row = event.target.closest('tr');
+        $(row).css('animation', 'fadeOut 0.3s ease-out');
+        setTimeout(function() {
+          window.location.href = deleteUrl;
+        }, 300);
+      }
+    }
+    
+    // Switch to add user tab
+    function switchToAddUserTab() {
+      $('#add-user-tab').tab('show');
+    }
+
+    // Add animation to form submission
+    $('form').on('submit', function() {
+      $(this).find('button[type="submit"]').addClass('animate__animated animate__pulse');
+    });
+  </script>
+  <script>
+$(document).ready(function() {
+  $('#addUserForm').on('submit', function(e) {
+    // Validate password match
+    var password1 = $('#{{ add_user_form.password1.id_for_label }}').val();
+    var password2 = $('#{{ add_user_form.password2.id_for_label }}').val();
+    
+    if (password1 !== password2) {
+      alert('Las contraseñas no coinciden');
+      e.preventDefault();
+      return false;
+    }
+    
+    // Validate password strength
+    if (password1.length < 8) {
+      alert('La contraseña debe tener al menos 8 caracteres');
+      e.preventDefault();
+      return false;
+    }
+    
+    return true;
+  });
+});
+</script>
+  <!-- Add this modal for editing users at the bottom of the body -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="editUserForm" method="post">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="username">Nombre de usuario</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="first_name">Nombre</label>
+            <input type="text" class="form-control" id="first_name" name="first_name">
+          </div>
+          <div class="form-group">
+            <label for="last_name">Apellido</label>
+            <input type="text" class="form-control" id="last_name" name="last_name">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

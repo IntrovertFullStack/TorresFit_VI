@@ -8,13 +8,16 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.admin.sites import AlreadyRegistered
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.db import transaction, models
 from django.conf import settings
 from .models import Producto, CarritoItem, Orden, OrdenItem, Datos
-from .forms import ProfileUpdateForm, UserForm, CustomUserChangeForm, OrdenForm
+from .forms import ProfileUpdateForm, UserChangeForm, CustomUserChangeForm, OrdenForm, UserCreationForm
+from django.contrib.auth.models import Group
+from django.urls import reverse
+
 
 import logging
 
@@ -117,24 +120,49 @@ def logout_view(request):
 
 @login_required
 def edit_profile(request):
+    if request.user.is_superuser or request.user.groups.filter(name='Moderadores').exists():
+        return redirect('admin_panel')  # Asegúrate de que 'admin_panel' sea el nombre de la URL para admin_panel.html
+    
+    # Verificar si el usuario es superusuario o pertenece al grupo "Moderadores"
+    #is_admin_or_moderator = request.user.is_superuser or request.user.groups.filter(name='Moderadores').exists()
+
+    # Renderizar la plantilla con el contexto
+    #return render(request, 'website/edit_profile.html', {
+        #'is_admin_or_moderator': is_admin_or_moderator,
+        #'user_form': UserForm(instance=request.user),
+        #'profile_form': ProfileForm(instance=request.user.profile)
+    #})
     if request.method == 'POST':
         user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        print("Form data:", request.POST)  # Debug: Print form data
-        print("User form errors:", user_form.errors)  # Debug: Print form errors
-
-        if user_form.is_valid():
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
-            update_session_auth_hash(request, request.user)  # Keep the user logged in
+            
+            # Handle profile image separately
+            profile = profile_form.save(commit=False)
+            if 'image' in request.FILES:  # If new image was uploaded
+                # Delete old image if it's not the default
+                old_image = request.user.profile.image
+                if old_image and old_image.name != 'profile_pics/default.jpg':
+                    old_image.delete(save=False)
+                profile.image = request.FILES['image']
+            profile.save()
+            
+            update_session_auth_hash(request, request.user)
             messages.success(request, 'Tu perfil ha sido actualizado exitosamente.')
             return redirect('edit_profile')
         else:
             messages.error(request, 'Por favor corrige los errores a continuación.')
     else:
         user_form = CustomUserChangeForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     return render(request, 'website/edit_profile.html', {
         'user_form': user_form,
+        'profile_form': profile_form
     })
+
 
 # def product(request, pk):
 #     productos = Producto.objects.get(id=pk)
@@ -455,36 +483,69 @@ def confirmacion(request, orden_id):
         messages.error(request, "Orden no encontrada")
         return redirect('productos')
 
-def enviar_correo_confirmacion(orden):
-    """ Envía un correo de confirmación al cliente """
-    asunto = f"Confirmación de Pedido #{orden.id}"
-    mensaje = f"""
-    Hola {orden.nombre},
-    Gracias por tu compra. Hemos recibido tu pedido y te hemos enviado un correo electrónico con los detalles de confirmación.
-    🌟 **Detalles del Pedido**
-    – Número de Pedido: {orden.id}
-    – Total: ${orden.total}
-    – Método de Pago: {orden.get_metodo_pago_display()}
-    – Fecha: {orden.fecha_creacion.strftime("%d/%m/%Y %H:%M")}
-    🌟 **Productos Comprados**:
-    """
-    # Agregar productos al mensaje
-    items = OrdenItem.objects.filter(orden=orden)
-    for item in items:
-        mensaje += f"\n    – {item.cantidad} x {item.producto.nombre} (${item.precio} c/u)"
-    mensaje += "\n\nGracias por confiar en nosotros. 😊\n\nSaludos,\nTu tienda online"
-
+def enviar_correo_confirmacion(orden, customer_message=''):
+    """Envía un correo de confirmación al cliente"""
     try:
+        # Get order items
+        items = OrdenItem.objects.filter(orden=orden)
+        
+        # Build email subject and message
+        subject = f"Confirmación de Pedido #{orden.id} - TorresFit"
+        
+        # Base message
+        email_message = f"""
+        Hola {orden.nombre},
+        
+        Gracias por tu compra en TorresFit. Aquí están los detalles de tu pedido:
+        
+        📦 **Detalles del Pedido**
+        - Número de Pedido: {orden.id}
+        - Fecha: {orden.fecha_creacion.strftime('%d/%m/%Y %H:%M')}
+        - Total: ${orden.total:.2f}
+        - Método de Pago: {orden.get_metodo_pago_display()}
+        
+        🛒 **Productos:**
+        {''.join([f'\n- {item.cantidad} x {item.producto.nombre} (${item.precio:.2f} c/u)' for item in items])}
+        
+        Total: ${orden.total:.2f}
+        """
+        
+        # Add the optional message if provided
+        if customer_message:
+            email_message += f"\n\n📝 **Mensaje adicional del cliente:**\n{customer_message}"
+            
+        # Final closing
+        email_message += """
+        
+        Gracias por confiar en nosotros!
+        El equipo de TorresFit
+        """
+        
+        # Send email to customer
         send_mail(
-            asunto,
-            mensaje,
-            settings.DEFAULT_FROM_EMAIL,  # Use the default email from settings
-            [orden.email],  # Use orden.email instead of orden.usuario.email
+            subject=subject,
+            message=email_message.strip(),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[orden.email],
             fail_silently=False,
         )
-        logger.info(f"Correo enviado exitosamente a {orden.email}")
+        
+        # Send copy to admin (using the ADMIN_EMAIL from settings)
+        admin_subject = f"Nuevo Pedido #{orden.id} - {orden.nombre}"
+        send_mail(
+            subject=admin_subject,
+            message=email_message.strip(),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.ADMIN_EMAIL],
+            fail_silently=True,
+        )
+        
+        logger.info(f"Correo enviado exitosamente a {orden.email} y copia a {settings.ADMIN_EMAIL}")
+        return True
+        
     except Exception as e:
-        logger.error(f"Error al enviar el correo de confirmación: {e}")
+        logger.error(f"Error al enviar correo de confirmación: {str(e)}")
+        return False
 
 @login_required
 def shopping_history(request):
@@ -497,3 +558,57 @@ def shopping_history(request):
     }
     
     return render(request, 'website/historial.html', context)
+
+# Decorator to check if user is superuser
+def superuser_required(view_func):
+    return user_passes_test(lambda u: u.is_superuser)(view_func)
+
+@superuser_required
+def admin_panel(request):
+    users = User.objects.all().order_by('-date_joined')
+    return render(request, 'website/admin_panel.html', {
+        'users': users,
+        'admin_panel': True  # Add this flag to identify admin panel
+    })
+
+@user_passes_test(lambda u: u.is_superuser)
+def add_user(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, f'Usuario {user.username} creado exitosamente!')
+            return redirect('admin_panel')  # Make sure this matches your URL name
+        else:
+            messages.error(request, 'Por favor corrige los errores en el formulario.')
+    else:
+        form = UserCreationForm()
+    
+    # If not POST or form invalid, show the admin panel with the form
+    return admin_panel(request)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def quick_edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        try:
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            user.first_name = request.POST.get('first_name', user.first_name)
+            user.last_name = request.POST.get('last_name', user.last_name)
+            user.save()
+            messages.success(request, f'Usuario {user.username} actualizado!')
+        except Exception as e:
+            messages.error(request, f'Error al actualizar usuario: {str(e)}')
+        return redirect('admin_panel')
+    return redirect('admin_panel')
+
+@user_passes_test(lambda u: u.is_superuser)
+def delete_user(request, pk):  # Keep 'pk' parameter
+    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, f'Usuario eliminado correctamente!')
+        return redirect('admin_panel')
+    return redirect('admin_panel')  # Redirect to admin panel if it's not a POST request

@@ -23,6 +23,19 @@
   <link rel="shortcut icon" href="{% static 'images/Logo2.png' %}" type="image/x-icon">
 </head>
 <body>
+    {% if form.errors or messages %}
+  <div class="alert alert-danger">
+      {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+              <p>{{ field|title }}: {{ error }}</p>
+          {% endfor %}
+      {% endfor %}
+      {% for message in messages %}
+          <p>{{ message }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
+
   <div class="loader-container" id="loaderContainer">
     <div class="loader"></div>
     <div class="loader-logo">
@@ -68,7 +81,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% if user.is_authenticated %}
-                  <img src="{% static '/images/user-profile-pic.png' %}" alt="Profile Picture" width="20px" height="20px" class="rounded-circle">
+                  <img src="{{ user.profile.image.url }}" alt="Profile Picture" width="20px" height="20px" class="rounded-circle">
                   &nbsp;Bienvenido, {{ user.username }}
                 {% else %}
                   Usuario

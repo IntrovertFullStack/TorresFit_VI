@@ -6,6 +6,7 @@ from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.forms import UserChangeForm
+import os
 
 
 
@@ -75,11 +76,25 @@ admin.site.register(Datos, AdminPerfilUsuario)
 
 class Profile(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='profile_images/', default='profile_images/default.jpg')
-
+    image = models.ImageField(
+        upload_to='profile_pics',
+        default='profile_pics/default.jpg'
+    )
+    
     def __str__(self):
-        return f'{self.usuario.username} Profile'
-
+        return f'{self.user.username} Profile'
+    
+    def save(self, *args, **kwargs):
+        # Delete old image when replacing with new one
+        try:
+            old_profile = Profile.objects.get(id=self.id)
+            if old_profile.image and old_profile.image != self.image and old_profile.image.name != 'profile_pics/default.jpg':
+                if os.path.isfile(old_profile.image.path):
+                    os.remove(old_profile.image.path)
+        except Profile.DoesNotExist:
+            pass
+        
+        super().save(*args, **kwargs)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

@@ -31,5 +31,12 @@ urlpatterns = [
     path("pasarela/", views.pasarela, name='pasarela'),
     path('confirmacion/<int:orden_id>/', views.confirmacion, name='confirmar'),
     path('shopping_history/', views.shopping_history, name='shopping_history'),
+    path('admin-panel/', views.admin_panel, name='admin_panel'),
+    path('admin-panel/add-user/', views.add_user, name='add_user'),
+    path('quick_edit_user/<int:pk>/', views.quick_edit_user, name='quick_edit_user'),
+    path('admin-panel/delete-user/<int:pk>/', views.delete_user, name='delete_user'),
+
+
+
 ]
 # Asegúrate de tener una vista para la página principal

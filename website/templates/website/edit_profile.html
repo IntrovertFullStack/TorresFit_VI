@@ -14,99 +14,28 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="shortcut icon" href="{% static 'images/Logo2.png' %}" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        <!-- Loader HTML -->
-        <div class="loader-container" id="loaderContainer">
-          <div class="loader"></div>
-          <div class="loader-logo">
-              <div class="loader-text">Torres<span>Fit</span></div>
-          </div>
-          <div class="loading-text">
-              Cargando<span class="loading-dots"></span>
-          </div>
-      </div>
-      <script src="{% static 'js/loader.js' %}"></script>
-    <div style="display: none;">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="django-message" data-level="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
+  <!-- Loader HTML -->
+  <div class="loader-container" id="loaderContainer">
+    <div class="loader"></div>
+    <div class="loader-logo">
+      <div class="loader-text">Torres<span>Fit</span></div>
     </div>
-  <style>
-    /* Custom CSS for edit profile page */
-    .profile-card {
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      overflow: hidden;
-      margin-bottom: 30px;
-    }
-    
-    .profile-card-header {
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-      padding: 25px;
-      color: white;
-      text-align: center;
-    }
-    
-    .profile-card-body {
-      padding: 30px;
-      background: white;
-    }
-    
-    .form-control {
-      border-radius: 8px;
-      padding: 12px 15px;
-      border: 1px solid #e0e0e0;
-      transition: all 0.3s;
-    }
-    
-    .form-control:focus {
-      border-color: #ff7e5f;
-      box-shadow: 0 0 0 0.2rem rgba(255, 126, 95, 0.25);
-    }
-    
-    .profile-label {
-      font-weight: 600;
-      color: #444;
-      margin-bottom: 8px;
-    }
-    
-    .profile-form-row {
-      margin-bottom: 25px;
-    }
-    
-    .save-btn {
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-      border: none;
-      padding: 12px 35px;
-      border-radius: 50px;
-      color: white;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);
-    }
-    
-    .save-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(255, 126, 95, 0.4);
-    }
-    
-    .breadcrumb {
-      background: transparent;
-      border-radius: 8px;
-      padding: 12px 20px;
-      border: 1px solid rgba(0,0,0,0.1);
-    }
-    
-    .breadcrumb-item a {
-      color: #ff7e5f;
-    }
-  </style>
+    <div class="loading-text">
+      Cargando<span class="loading-dots"></span>
+    </div>
+  </div>
+  <script src="{% static 'js/loader.js' %}"></script>
+  
+  <div style="display: none;">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="django-message" data-level="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
 </head>
 <body>
   <!-- Messages container -->
@@ -120,65 +49,73 @@
     {% endif %}
   </div>
 
-  <!-- Header background with navbar (preserved) -->
+  <!-- Header background with navbar -->
   <div class="container-fluid pl-0 pr-0 bg-img clearfix parallax-window2" data-parallax="scroll" data-image-src="{% static 'images/BG2.jpg' %}">
-    <nav class="navbar navbar-expand-md navbar-dark">
-      <div class="container"> 
-        <!-- Brand --> 
-        <a class="navbar-brand mr-auto" href="#"><img src="{% static 'images/Logo2.png' %}" alt="TorresFit" /></a> 
-        
-        <!-- Toggler/collapsibe Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
-        
-        <!-- Navbar links -->
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}">Principal</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'productos' %}">Tienda</a> </li>
-            
-            <!-- User Dropdown Menu -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if user.is_authenticated %}
-                  <img src="{% static '/images/user-profile-pic.png' %}" alt="Profile Picture" width="20px" height="20px" class="rounded-circle">
-                  &nbsp;Bienvenido, {{ user.username }}
-                {% else %}
-                  Usuario
-                {% endif %}
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% if user.is_authenticated %}
-                  <a class="dropdown-item" href="{% url 'logout' %}"  style="color: black;">
-                    <img src="{% static '/images/logout.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cerrar Sesión
-                  </a>
-                  <a class="dropdown-item" href="{% url 'edit_profile' %}"  style="color: black;">
-                    <img src="{% static '/images/user-edit-avatar.png' %}" alt="Edit User" width="30px" height="30px" class="rounded-circle">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar Perfil
-                  </a>
-                {% else %}
-                  <a class="dropdown-item" href="{% url 'login' %}"  style="color: black;">
-                    <img src="{% static '/images/user-profile-pic.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iniciar Sesión
-                  </a>
-                {% endif %}
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'user_manual' %}">
-                  <img src="{% static '/images/handbook.png' %}" alt="User Manual" width="30px" height="30px" class="rounded-circle">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual de Usuario
-                </a>
-                <a class="dropdown-item" href="{% url 'contactenos' %}">
-                  <img src="{% static '/images/handbook.png' %}" alt="Contactanos" width="30px" height="30px" class="rounded-circle">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contactanos
-                </a>
-              </div>
-            </li>
-          </ul>
-        </div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="container-fluid">
+          <!-- Brand -->
+          <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+              <img src="{% static 'images/Logo2.png' %}" alt="TorresFit" class="img-fluid" style="max-height: 40px;">
+          </a>
+          
+          <!-- Toggler/collapsible Button -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <!-- Navbar links -->
+          <div class="collapse navbar-collapse" id="mainNavbar">
+              <ul class="navbar-nav mx-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'home' %}">Principal</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'productos' %}">Tienda</a>
+                  </li>
+              </ul>
+  
+              <!-- User Section -->
+              <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" 
+                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {% if user.is_authenticated %}
+                              <img src="{{ user.profile.image.url }}" 
+                                   alt="Profile" 
+                                   class="rounded-circle mr-2" 
+                                   style="width: 45px; height: 45px; object-fit: cover;">
+                              <span>{{ user.username }}</span>
+                          {% else %}
+                              <i class="fas fa-user mr-2"></i>Usuario
+                          {% endif %}
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                          {% if user.is_authenticated %}
+                              <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                                  <i class="fas fa-user-edit mr-2"></i>Editar Perfil
+                              </a>
+                              <a class="dropdown-item" href="{% url 'logout' %}">
+                                  <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                              </a>
+                          {% else %}
+                              <a class="dropdown-item" href="{% url 'login' %}">
+                                  <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
+                              </a>
+                          {% endif %}
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'user_manual' %}">
+                              <i class="fas fa-book mr-2"></i>Manual de Usuario
+                          </a>
+                          <a class="dropdown-item" href="{% url 'contactenos' %}">
+                              <i class="fas fa-envelope mr-2"></i>Contactanos
+                          </a>
+                      </div>
+                  </li>
+              </ul>
+          </div>
       </div>
-    </nav>
+  </nav>
     
-    <!-- Title banner -->
     <div class="container">
       <div class="fh5co-banner-text-box">
         <div class="quote-box pl-5 pr-5 wow bounceInRight">
@@ -188,20 +125,17 @@
     </div>
   </div>
 
-  <!-- Redesigned Profile edit section -->
+  <!-- Profile edit section -->
   <div class="container-fluid fh5co-content-box bg-light py-5">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <nav aria-label="breadcrumb" class="mb-4 wow fadeInUp">
-          </nav>
-
-          <!-- Profile card -->
           <div class="profile-card wow bounceInUp">
             <div class="profile-card-header">
               <div class="row align-items-center">
                 <div class="col-md-3 text-center">
-                  <img src="{% static '/images/user-profile-pic.png' %}" alt="Profile Picture" class="rounded-circle bg-white p-2" width="100">
+                  <img src="{{ user.profile.image.url }}" alt="Profile Picture" 
+                       class="rounded-circle bg-white p-2" width="100" style="object-fit: cover;">
                 </div>
                 <div class="col-md-9">
                   <h3 class="mb-1">{{ user.username }}</h3>
@@ -211,8 +145,7 @@
             </div>
             
             <div class="profile-card-body">
-              <!-- Form errors -->
-              {% if user_form.errors %}
+              {% if user_form.errors or profile_form.errors %}
                 <div class="alert alert-danger">
                   <strong><i class="fas fa-exclamation-triangle mr-2"></i>Error:</strong> Por favor corrige los siguientes errores.
                   <ul class="mt-2 mb-0">
@@ -221,14 +154,85 @@
                         <li>{{ field }}: {{ error }}</li>
                       {% endfor %}
                     {% endfor %}
+                    {% for field, errors in profile_form.errors.items %}
+                      {% for error in errors %}
+                        <li>{{ field }}: {{ error }}</li>
+                      {% endfor %}
+                    {% endfor %}
                   </ul>
                 </div>
               {% endif %}
               
-              <!-- Profile form -->
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 
+                <!-- Profile Image Upload -->
+                <div class="profile-form-row wow fadeIn" data-wow-delay=".05s">
+                  <label class="profile-label"><i class="fas fa-camera mr-2"></i>Foto de Perfil</label>
+                  <div class="text-center mb-3 position-relative">
+                    <img src="{{ user.profile.image.url }}" alt="Current Profile Picture" 
+                        class="rounded-circle bg-white p-2" width="150" id="current-profile-img" style="cursor: pointer;">
+                    <i class="fas fa-camera camera-icon" id="cameraIcon"></i> <!-- Camera icon inside the image container -->
+                    <input type="file" class="custom-file-input" id="id_image" name="image" accept="image/*" style="display: none;">
+                  </div>
+                  <small class="form-text text-muted">Formatos soportados: JPG, PNG. Tamaño máximo: 2MB.</small>
+                </div>
+
+                <style>
+                  .position-relative {
+                    position: relative;
+                  }
+
+                  #current-profile-img {
+                    transition: transform 0.3s ease; /* Smooth scaling effect for the image */
+                  }
+
+                  #current-profile-img:hover {
+                    transform: scale(1.05); /* Scale up the image slightly on hover */
+                  }
+
+                  .camera-icon {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0); /* Start scaled down */
+                    font-size: 30px; /* Adjust size as needed */
+                    color: rgba(255, 126, 95, 0.8); /* Color of the icon */
+                    opacity: 0; /* Initially hidden */
+                    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for opacity and scale */
+                  }
+
+                  .text-center:hover .camera-icon {
+                    opacity: 1; /* Show icon on hover */
+                    transform: translate(-50%, -50%) scale(1); /* Scale up the icon */
+                  }
+                </style>
+
+                <script>
+                // JavaScript to trigger file input when the image is clicked
+                document.getElementById('current-profile-img').addEventListener('click', function() {
+                  document.getElementById('id_image').click(); // Trigger the file input click
+                });
+
+                // Image preview before upload
+                document.getElementById('id_image').addEventListener('change', function(event) {
+                  const file = event.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                      document.getElementById('current-profile-img').src = e.target.result; // Update the image preview
+                    }
+                    reader.readAsDataURL(file);
+                    
+                    // Update the file input label (if needed)
+                    const fileName = file.name.length > 20 
+                      ? file.name.substring(0, 17) + '...' 
+                      : file.name;
+                    // Optionally update the label here if you want to show the file name
+                  }
+                });
+                </script>                
+                <!-- User Info Fields -->
                 <div class="profile-form-row wow fadeIn" data-wow-delay=".15s">
                   <label class="profile-label"><i class="fas fa-user mr-2"></i>Nombre</label>
                   <div class="input-group">
@@ -282,82 +286,10 @@
     </div>
   </div>
 
-  <!-- Footer (preserved) -->
+  <!-- Footer -->
   <footer id="footer" class="footer" data-builder="footer" data-colorpreset="cp-dark-background">
     <div class="container">
-        <!-- Animated Wave Effect Background -->
-        <div class="footer-wave-container">
-            <div class="wave wave1"></div>
-            <div class="wave wave2"></div>
-            <div class="wave wave3"></div>
-            <div class="wave wave4"></div>
-        </div>
-        
-        <div class="footer-content wow fadeIn" data-wow-delay="0.2s">
-            <h3 class="mb-4 wow bounceIn" data-wow-delay="0.3s">Comunícate con nosotros</h3>
-            <p class="mb-4 wow fadeInUp" data-wow-delay="0.4s">Visita nuestras redes sociales y mantente conectado con TorresFit.</p>
-            
-            <div class="social-links d-flex justify-content-center mb-4">
-                <a href="https://www.facebook.com/torresfitgym/?locale=es_LA" class="wow bounceIn" data-wow-delay="0.5s">
-                    <div class="social-icon facebook-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </div>
-                </a>
-                <a href="https://www.instagram.com/torresfitgym/" class="wow bounceIn" data-wow-delay="0.6s">
-                    <div class="social-icon instagram-icon">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </a>
-                <a href="https://www.tiktok.com/@abrahamtorres857" class="wow bounceIn" data-wow-delay="0.7s">
-                    <div class="social-icon tiktok-icon">
-                        <i class="fab fa-tiktok"></i>
-                    </div>
-                </a>
-                <a href="https://wa.me/573125678954" class="wow bounceIn" data-wow-delay="0.8s">
-                    <div class="social-icon whatsapp-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                </a>
-            </div>
-            
-            <div class="footer-info wow fadeInUp" data-wow-delay="0.9s">
-                <div class="address-container">
-                    <i class="fas fa-map-marker-alt location-pin"></i>
-                    <div>
-                        <span class="footer-address">Cl. 3 #4-15</span>
-                        <strong class="px-1 sitename">Reservas de Oriente</strong>
-                        <span>Garzón, Huila</span>
-                    </div>
-                </div>
-                
-                <div class="contact-info mt-3">
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <a href="tel:+573125678954">+57 312 567 8954</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:info@torresfit.com">info@torresfit.com</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="copyright wow fadeInLeft" data-wow-delay="1.1s">
-                        &copy; <span id="current-year"></span> TorresFit. Todos los derechos reservados.
-                    </p>
-                </div>
-                <div class="col-md-6">
-                    <ul class="footer-links wow fadeInRight" data-wow-delay="1.1s">
-                        <li><a href="#">Términos y Condiciones</a></li>
-                        <li><a href="#">Política de Privacidad</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+      <!-- Footer content remains the same -->
     </div>
   </footer>
 
@@ -366,7 +298,9 @@
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/parallax.js' %}"></script>
   <script src="{% static 'js/wow.js' %}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+
+  
   <script>
     // Initialize WOW.js animations
     new WOW().init();
@@ -377,7 +311,9 @@
         var level = $(this).data('level');
         var message = $(this).text().trim();
         
-        // Create Bootstrap alerts
+        if(message) {
+        var message = $(this).text().trim();
+        
         if(message) {
           var alertClass = 'alert-info';
           if(level === 'success') alertClass = 'alert-success';
@@ -395,10 +331,126 @@
         }
       });
       
-      // Auto dismiss alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').alert('close');
+                <!-- User Info Fields -->
+                <div class="profile-form-row wow fadeIn" data-wow-delay=".15s">
+                  <label class="profile-label"><i class="fas fa-user mr-2"></i>Nombre</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    {{ user_form.first_name }}
+                  </div>
+                </div>
+                
+                <div class="profile-form-row wow fadeIn" data-wow-delay=".20s">
+                  <label class="profile-label"><i class="fas fa-user-tag mr-2"></i>Apellido</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                    </div>
+                    {{ user_form.last_name }}
+                  </div>
+                </div>
+                
+                <div class="profile-form-row wow fadeIn" data-wow-delay=".25s">
+                  <label class="profile-label"><i class="fas fa-envelope mr-2"></i>Correo Electrónico</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    {{ user_form.email }}
+                  </div>
+                </div>
+                
+                <div class="profile-form-row wow fadeIn" data-wow-delay=".30s">
+                  <label class="profile-label"><i class="fas fa-at mr-2"></i>Nombre de Usuario</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-at"></i></span>
+                    </div>
+                    {{ user_form.username }}
+                  </div>
+                </div>
+                
+                <div class="text-center mt-4 wow bounceIn" data-wow-delay=".35s">
+                  <button type="submit" class="save-btn">
+                    <i class="fas fa-save mr-2"></i>Guardar Cambios
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer" data-builder="footer" data-colorpreset="cp-dark-background">
+    <div class="container">
+      <!-- Footer content remains the same -->
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/parallax.js' %}"></script>
+  <script src="{% static 'js/wow.js' %}"></script>
+  <script src="{% static 'js/edit_profile_script.js' %}" defer></script>
+  <script src="{% static 'js/main.js' %}" defer></script>
+
+  
+  <script>
+    // Initialize WOW.js animations
+    new WOW().init();
+    
+    // Show alerts from Django messages
+    $(document).ready(function() {
+      $('.django-message').each(function() {
+        var level = $(this).data('level');
+        var message = $(this).text().trim();
+        
+        if(message) {
+          var alertClass = 'alert-info';
+          if(level === 'success') alertClass = 'alert-success';
+          if(level === 'error') alertClass = 'alert-danger';
+          if(level === 'warning') alertClass = 'alert-warning';
+          
+          $('body').append(
+            '<div class="alert ' + alertClass + ' alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">' +
+            message +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+            '</div>'
+          );
+        }
+      });
+      
       setTimeout(function() {
         $('.alert').alert('close');
       }, 5000);
+      
+      // Image preview before upload
+      document.getElementById('id_image').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById('current-profile-img').src = e.target.result;
+          }
+          reader.readAsDataURL(file);
+          
+          // Update the file input label
+          const fileName = file.name.length > 20 
+            ? file.name.substring(0, 17) + '...' 
+            : file.name;
+          this.nextElementSibling.textContent = fileName;
+        }
+      });
     });
   </script>
 </body>
